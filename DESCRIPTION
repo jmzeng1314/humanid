@@ -1,0 +1,10 @@
+Package: humanid
+Type: Package
+Title: gene id annotation
+Version: 0.1.0
+Author: jianmingzeng
+Maintainer: jianmingzeng <jmzeng1314@16.com>
+Description: entrez gene id , gene symbol,hugo,ensembl gene id, gene map,
+License: MIT-3
+LazyData: TRUE
+RoxygenNote: 5.0.1
