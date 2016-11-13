@@ -95,15 +95,17 @@ update_kegg <- function(refresh=F){
 #'
 create_dup_exprSet <- function(refresh=F){
   library(CLL)
-  library(annotate)
   data(sCLLex)
+  group_list=sCLLex$Disease
+
+  library(annotate)
   exprSet=exprs(sCLLex)
   platformDB='hgu95av2.db'
   library(platformDB, character.only=TRUE)
   probeset <- featureNames(sCLLex)
   SYMBOL <-  lookUp(probeset, platformDB, "SYMBOL")
   dup_exprSet=cbind(SYMBOL,exprSet)
-  group_list=sCLLex$Disease
+
   devtools::use_data(dup_exprSet,overwrite =T)
 }
 
@@ -118,5 +120,64 @@ create_example_exprSet <- function(refresh=F){
   example_exprSet=rmDupID(dup_exprSet)
   devtools::use_data(example_exprSet,overwrite =T)
 }
+
+
+#' create a list of gene sets for  enzyme/protein complex/ development/immune
+#'
+#' PTM: Post-translational modification, such methyl-,  acethyl-,  phospha-
+#' SWI/SNF Chromatin Remodeling Complexes and PRC family members
+#' development associated genes
+#' Immune-Related Genes
+#' transcription factor genesets
+#' other genesets
+#'
+#' @param refresh Don't use this function if not neccessary
+#' @keywords refresh
+#'
+create_genesets_list <- function(refresh=F){
+
+  suppressMessages(library("org.Hs.eg.db"))
+  allSymbols=mappedkeys(org.Hs.egSYMBOL2EG)
+  PRMT_list =allSymbols[grepl("^PRMT", allSymbols)];PRMT_list=c(PRMT_list,'CARM1')
+  JMJD_list =allSymbols[grepl("^JMJD", allSymbols)];
+  KMT_list  =allSymbols[grepl("^KMT",  allSymbols)];KMT_list=c(KMT_list,'EZH2')
+  KDM_list  =allSymbols[grepl("^KDM",  allSymbols)];
+  HAT_list  =allSymbols[grepl("^KAT\\d",  allSymbols)];HAT_list=c(HAT_list,'HAT1','EP300')
+  HDAC_list =allSymbols[grepl("^HDAC",  allSymbols)];
+  MAPK_list =allSymbols[grepl("^MAPK",  allSymbols)];
+  CDK_list  =allSymbols[grepl("^CDK\\d+$", perl =T, allSymbols)];
+  DUSP_list =allSymbols[grepl("^DUSP\\d+$",  allSymbols)];
+  enzyme_genesets=list(PRMT_list,JMJD_list,KMT_list,KDM_list,HAT_list,HDAC_list,MAPK_list,CDK_list,DUSP_list)
+  names(enzyme_genesets)=strsplit('PRMT_list,JMJD_list,KMT_list,KDM_list,HAT_list,HDAC_list,MAPK_list,CDK_list,DUSP_list',',')[[1]]
+
+  HIST_list =allSymbols[grepl("^HIST",  allSymbols)];
+  ABC_list =allSymbols[grepl("^ABC",  allSymbols)];
+  TUB_list =allSymbols[grepl("^TUB",  allSymbols)];
+  ACT_list =allSymbols[grepl("^ACT",  allSymbols)];
+  MYO_list =allSymbols[grepl("^MYO",  allSymbols)];
+  other_genesets=list(HIST_list,ABC_list,TUB_list,ACT_list,MYO_list)
+  names(other_genesets)=strsplit('HIST_list,ABC_list,TUB_list,ACT_list,MYO_list',',')[[1]]
+
+
+  PRC_list = c('BMI1','CBX2','CBX4','CBX7','CBX8','PCGF1','PCGF2','PCGF3','PCGF5','PCGF6','PHC1','PHC2','PHC3','RING1','RNF2','SCML1','SCML2','AEBP2','EED','EZH2','HOXTAIR','JARID2','RBBP4','RBBP6','SUZ12','GAPDH')
+  SWI_SNF_list= allSymbols[grepl("^SMAR",  allSymbols)];
+  RNA_Polymerase_II_list = allSymbols[grepl("^POLR",  allSymbols)];
+  TAF_list =allSymbols[grepl("^TAF",  allSymbols)];
+  TBP_list =allSymbols[grepl("^TBP",  allSymbols)];
+  TATA_Box_TF_list=c(TAF_list,TBP_list)
+  General_TF_list =allSymbols[grepl("^GTF",  allSymbols)];
+  nulear_Factor_list =allSymbols[grepl("^NF",  allSymbols)];
+  protein_complex_genesets=list(PRC_list,SWI_SNF_list,RNA_Polymerase_II_list,TATA_Box_TF_list,General_TF_list,nulear_Factor_list)
+  names(protein_complex_genesets)=strsplit('PRC_list,SWI_SNF_list,RNA_Polymerase_II_list,TATA_Box_TF_list,General_TF_list,nulear_Factor_list',',')[[1]]
+
+
+  devtools::use_data(protein_complex_genesets,enzyme_genesets,other_genesets,overwrite =T)
+
+}
+
+
+
+
+
 
 

@@ -19,3 +19,13 @@ please feel free to contact with me if there's bug in my package, so far it's ve
 
 ------
 
+
+```R
+
+library(CLL)
+data(sCLLex)
+group_list=sCLLex$Disease
+QCexpressionMatrix(example_exprSet,group_list)
+batch_pheatmap(example_exprSet,enzyme_genesets)
+
+```
