@@ -11,7 +11,7 @@
 #' @export
 #' @keywords QC
 #' @examples
-#' #' QCexpressionMatrix(example_exprSet,group_list,project='test')
+#' pathway_heatmap(example_exprSet)
 
 
 pathway_heatmap <- function(exprSet,pathwayID='00910',search='NA',all=F){
@@ -25,5 +25,5 @@ pathway_heatmap <- function(exprSet,pathwayID='00910',search='NA',all=F){
     drawPath=kegg2name[pathwayID,]
   }
 
-
+  return('hello')
 }

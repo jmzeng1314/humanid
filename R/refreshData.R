@@ -146,9 +146,11 @@ create_genesets_list <- function(refresh=F){
   HDAC_list =allSymbols[grepl("^HDAC",  allSymbols)];
   MAPK_list =allSymbols[grepl("^MAPK",  allSymbols)];
   CDK_list  =allSymbols[grepl("^CDK\\d+$", perl =T, allSymbols)];
+  PRAK_list  =allSymbols[grepl("^PRKA", perl =T, allSymbols)];
   DUSP_list =allSymbols[grepl("^DUSP\\d+$",  allSymbols)];
-  enzyme_genesets=list(PRMT_list,JMJD_list,KMT_list,KDM_list,HAT_list,HDAC_list,MAPK_list,CDK_list,DUSP_list)
-  names(enzyme_genesets)=strsplit('PRMT_list,JMJD_list,KMT_list,KDM_list,HAT_list,HDAC_list,MAPK_list,CDK_list,DUSP_list',',')[[1]]
+
+  enzyme_genesets=list(PRMT_list,JMJD_list,KMT_list,KDM_list,HAT_list,HDAC_list,MAPK_list,CDK_list,PRAK_list,DUSP_list)
+  names(enzyme_genesets)=strsplit('PRMT_list,JMJD_list,KMT_list,KDM_list,HAT_list,HDAC_list,MAPK_list,CDK_list,PRAK_list,DUSP_list',',')[[1]]
 
   HIST_list =allSymbols[grepl("^HIST",  allSymbols)];
   ABC_list =allSymbols[grepl("^ABC",  allSymbols)];

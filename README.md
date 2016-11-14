@@ -26,6 +26,6 @@ library(CLL)
 data(sCLLex)
 group_list=sCLLex$Disease
 QCexpressionMatrix(example_exprSet,group_list)
-batch_pheatmap(example_exprSet,enzyme_genesets)
+batch_pheatmap(example_exprSet,group_list,name=F,genesets=enzyme_genesets)
 
 ```

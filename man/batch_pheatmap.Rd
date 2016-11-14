@@ -4,12 +4,17 @@
 \alias{batch_pheatmap}
 \title{Do batch heatmap for interested gene sets.}
 \usage{
-batch_pheatmap(exprSet, needGeneList)
+batch_pheatmap(exprSet, group_list, name = F, genesets, width = 800,
+  height = 800)
 }
 \arguments{
 \item{exprSet}{a expression matrix, which columns are sample,rows are HUGO gene symbols.}
 
-\item{needGeneList}{a list of interested gene sets, each gene set is a vector of genes, the name will be used by out figures.}
+\item{group_list}{a vector,as long as the col number for the expression matrix,which describe the group for the samples in exprSet}
+
+\item{name}{Whether to attach the gene name to the heatmap or not, default:F}
+
+\item{genesets}{a list of interested gene sets, each gene set is a vector of genes, the name will be used by out figures.}
 }
 \value{
 generate heatmap figures for each gene sets.
@@ -18,6 +23,7 @@ generate heatmap figures for each gene sets.
 extract the corresponding expression matrix for each gene set , and draw heatmap for the gene set expression matrix.
 The name of the gene set will be used for the name of the heatmap figure
 the rowname must be HUGO gene symbols
+we have prepared 3 genesets:protein_complex_genesets,enzyme_genesets,other_genesets
 }
 \examples{
 #' batch_pheatmap(),batch_pheatmap()
