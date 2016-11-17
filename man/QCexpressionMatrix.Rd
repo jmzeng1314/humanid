@@ -4,7 +4,7 @@
 \alias{QCexpressionMatrix}
 \title{Do basic QC for a expression matrix.}
 \usage{
-QCexpressionMatrix(exprSet, group_list, project = "test")
+QCexpressionMatrix(exprSet, group_list = "NO", project = "test")
 }
 \arguments{
 \item{exprSet}{a expression matrix, which columns are sample,rows are HUGO gene symbols.}

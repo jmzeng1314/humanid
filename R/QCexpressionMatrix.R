@@ -14,7 +14,7 @@
 
 
 
-QCexpressionMatrix <- function(exprSet,group_list,project='test'){
+QCexpressionMatrix <- function(exprSet,group_list='NO',project='test'){
   library(reshape2)
   library(ggplot2)
 
@@ -40,35 +40,39 @@ QCexpressionMatrix <- function(exprSet,group_list,project='test'){
   plot(out.hclust)
   dev.off()
 
-  xpr=exprSet
-  xpr=example_exprSet
-  this.color=rainbow(length(unique(group_list)))
+  if (group_list !='NO'){
 
-  pc=prcomp(t(xpr), scale=T)
-  #summary(pc)
-  #screeplot(pc, type='line')
-  pcx=data.frame(pc$x)
-  pcr=cbind(samples=rownames(pcx),group_list, pcx)
-  png(paste0(project,"_sample_PCA.png"),width = 800,height = 800)
-  p=ggplot(pcr, aes(PC1, PC2))+geom_point(size=5, aes(color=group_list))+scale_colour_manual(values=this.color)+
-    geom_text(aes(label=samples),hjust=-0.1, vjust=-0.3)
-  print(p)
-  dev.off()
+    xpr=exprSet
+    this.color=rainbow(length(unique(group_list)))
+
+    pc=prcomp(t(xpr), scale=T)
+    #summary(pc)
+    #screeplot(pc, type='line')
+    pcx=data.frame(pc$x)
+    pcr=cbind(samples=rownames(pcx),group_list, pcx)
+    png(paste0(project,"_sample_PCA.png"),width = 800,height = 800)
+    p=ggplot(pcr, aes(PC1, PC2))+geom_point(size=5, aes(color=group_list))+scale_colour_manual(values=this.color)+
+      geom_text(aes(label=samples),hjust=-0.1, vjust=-0.3)
+    print(p)
+    dev.off()
 
 
-  xpr=exprSet
-  this.color=rainbow(length(unique(group_list)))
-  #as.numeric(factor(group_list))
-  meta=data.frame(Group=group_list,
-                  Sample=colnames(exprSet),
-                  Color=this.color[as.numeric(factor(group_list))],
-                  stringsAsFactors = F
-  )
-  tmp=cc_plot(xpr, meta)
-  png(paste0(project,"_sample_cc.png"),width = 800,height = 800)
-  print(tmp$plt)
-  dev.off()
-  write.csv(tmp$dfp,paste0(project,"_sample_cc.csv") ,quote = F)
+    xpr=exprSet
+    this.color=rainbow(length(unique(group_list)))
+    #as.numeric(factor(group_list))
+    meta=data.frame(Group=group_list,
+                    Sample=colnames(exprSet),
+                    Color=this.color[as.numeric(factor(group_list))],
+                    stringsAsFactors = F
+    )
+    tmp=cc_plot(xpr, meta)
+    png(paste0(project,"_sample_cc.png"),width = 800,height = 800)
+    print(tmp$plt)
+    dev.off()
+    write.csv(tmp$dfp,paste0(project,"_sample_cc.csv") ,quote = F)
+
+
+  }
 }
 
 
