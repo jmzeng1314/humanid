@@ -12,10 +12,11 @@
 #'
 #'
 get_symbol_exprSet <- function(eSet,platformDB='hgu133plus2.db'){
-
+  ## you must make sure that the eSet is a standard format, eg: read the cel files by Affy package
   library(platformDB, character.only=TRUE)
   library(annotate)
   probeset <- featureNames( eSet )
+  exprSet <- exprs( eSet)
   #EGID <- as.numeric(lookUp(probeset, platformDB, "ENTREZID"))
   SYMBOL <-  lookUp(probeset, platformDB, "SYMBOL")
   length(unlist(SYMBOL));dim(exprSet)
@@ -32,6 +33,7 @@ get_symbol_exprSet <- function(eSet,platformDB='hgu133plus2.db'){
           exprSet=log2(exprSet) ## based on 2
 
   #boxplot(exprSet,las=2)
+  #exprSet <- na.omit(exprSet)
   return(exprSet)
 
 }
