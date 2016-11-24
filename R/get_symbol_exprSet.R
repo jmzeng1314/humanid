@@ -17,23 +17,25 @@ get_symbol_exprSet <- function(eSet,platformDB='hgu133plus2.db'){
   library(annotate)
   probeset <- featureNames( eSet )
   exprSet <- exprs( eSet)
-  #EGID <- as.numeric(lookUp(probeset, platformDB, "ENTREZID"))
-  SYMBOL <-  lookUp(probeset, platformDB, "SYMBOL")
-  length(unlist(SYMBOL));dim(exprSet)
+  exprSet <- na.omit(exprSet )
+
+  probe2symbol_df <- toTable(get(paste0(sub('.db','',platformDB),'SYMBOL') ))
 
   exprSet=as.data.frame(exprSet)
-  a=cbind(as.character(unlist(SYMBOL)),exprSet)
+  exprSet$probe_id = rownames(exprSet)
 
-  exprSet=rmDupID(a)
+  tmp <- merge(probe2symbol_df,exprSet,by='probe_id');dim(tmp)
+  tmp <- tmp[,-1]
+  exprSet_rmdup=rmDupID(tmp);dim(exprSet_rmdup)
 
-  keepProbe <- apply(exprSet, 1, function(x) all( x >1 ) )
-  exprSet <- exprSet[keepProbe,];dim(exprSet)
+  keepProbe <- apply(exprSet_rmdup, 1, function(x) all( x >1 ) )
+  exprSet_rmdup <- exprSet_rmdup[as.logical(keepProbe),];dim(exprSet_rmdup)
 
-  if( mean(rowMeans( exprSet ,na.rm = T),na.rm = T) >20)
-          exprSet=log2(exprSet) ## based on 2
+  if( mean(rowMeans( exprSet_rmdup ,na.rm = T),na.rm = T) >20)
+    exprSet_rmdup=log2(exprSet_rmdup) ## based on 2
 
-  #boxplot(exprSet,las=2)
-  #exprSet <- na.omit(exprSet)
-  return(exprSet)
+  #boxplot(exprSet_rmdup,las=2)
+  #exprSet_rmdup <- na.omit(exprSet_rmdup)
+  return(exprSet_rmdup)
 
 }

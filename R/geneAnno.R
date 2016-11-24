@@ -16,6 +16,7 @@ geneAnno <- function(geneLists=c(1,2,9),name=T,map=F,ensembl=F,accnum=F){
   if(length(geneLists)>length(unique(geneLists)))
     warning('there is duplicate for the geneLists !')
 
+  geneLists <- unique(geneLists)
   if( all(! geneLists %in% all_EG) ){
     inputType='symbol'
     geneLists=data.frame(symbol=geneLists)

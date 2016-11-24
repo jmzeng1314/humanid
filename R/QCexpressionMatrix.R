@@ -40,7 +40,7 @@ QCexpressionMatrix <- function(exprSet,group_list='NO',project='test'){
   plot(out.hclust)
   dev.off()
 
-  if (group_list !='NO'){
+  if ( length(group_list) >1){
 
     xpr=exprSet
     this.color=rainbow(length(unique(group_list)))
