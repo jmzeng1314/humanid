@@ -42,7 +42,7 @@ geneAnno <- function(geneLists=c(1,2,9),name=T,map=F,ensembl=F,accnum=F){
 
     results=merge(results,EG2MAP,by='gene_id',all.x=T)
   }
-
+  results$symbol <- as.character(results$symbol  )
   return(results)
 
 }

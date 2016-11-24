@@ -46,7 +46,7 @@ batch_enrichment <- function(diff_gene_file,all_genes_file,studyID='test',GOstat
         GO.hyperG.matrix=summary(GO.hyperG.results)
         outMatrixName=paste("GO.",ontology,".hyperG.summary.csv",sep="")
         #GO.hyperG.matrix$p.adjust = p.adjust(GO.hyperG.matrix$Pvalue,method = 'BH')
-        write.csv(GO.hyperG.matrix,outMatrixName,row.names = F)
+        write.csv(GO.hyperG.matrix,outMatrixName )
       }
       #options(digits=4);
       hyperG.params = new("KEGGHyperGParams", geneIds=diff_gene_list, universeGeneIds=all_genes_list, annotation=annotationPKG,
@@ -58,7 +58,7 @@ batch_enrichment <- function(diff_gene_file,all_genes_file,studyID='test',GOstat
       outMatrixName="kegg.hyperG.summary.csv"
       KEGG.hyperG.matrix$KEGGID=paste0('hsa:',KEGG.hyperG.matrix$KEGGID)
       #KEGG.hyperG.matrix$p.adjust = p.adjust(KEGG.hyperG.matrix$Pvalue,method = 'BH')
-      write.csv(KEGG.hyperG.matrix,outMatrixName,row.names = F)
+      write.csv(KEGG.hyperG.matrix,outMatrixName )
     }
 
   }
