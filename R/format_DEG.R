@@ -17,6 +17,13 @@ format_DEG <- function(DEG,studyID='test'){
   DEG$sigORnot <- ifelse(abs(DEG$logFC) > logFC_Cutof & DEG$P.Value <0.05 ,ifelse(DEG$logFC > logFC_Cutof,'UP','DOWN'),'NOT')
   table( DEG$sigORnot )
 
+  png( paste0(studyID,'_volcanic.png') )
+  plot(DEG$logFC,DEG$P.Value,main =logFC_Cutof )
+  abline(h = 0.05,col='blue')
+  abline(v=logFC_Cutof,col='red')
+  abline(v=-logFC_Cutof,col='red')
+  dev.off()
+
   file_allGeneList = paste0(studyID,'_allGeneList.txt')
   file_diffGeneList = paste0(studyID,'_diffGeneList.txt')
   file_upGeneList = paste0(studyID,'_upGeneList.txt')
