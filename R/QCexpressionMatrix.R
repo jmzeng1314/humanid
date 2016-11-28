@@ -45,7 +45,23 @@ QCexpressionMatrix <- function(exprSet,group_list='NO',project='test'){
     xpr=exprSet
     this.color=rainbow(length(unique(group_list)))
 
-    pc=prcomp(t(xpr), scale=T)
+    ## bug:cannot rescale a constant/zero column to unit variance
+    ## https://searchcode.com/codesearch/view/15421003/
+    xpr_t = t(xpr)
+    variances <- apply(xpr_t, 2, var) # variance for each column
+    ## some probese/gene show same expression values in all of the samples
+    zerovar <- which(variances == 0)
+    if (length(zerovar)==0){
+      xpr_t.2 <- xpr_t
+    }else{
+
+      xpr_t.2 <- xpr_t[,-zerovar] # delete columns where variance is zero
+    }
+    ## column mean gene and row means sample
+    pc <- prcomp(xpr_t.2,scale=TRUE)
+    ##pc=prcomp(t(xpr), scale=T)
+
+
     #summary(pc)
     #screeplot(pc, type='line')
     pcx=data.frame(pc$x)

@@ -33,9 +33,30 @@ format_DEG <- function(DEG,studyID='test'){
   write.table(unique(DEG[DEG$sigORnot != 'NOT','symbol']),file_diffGeneList,quote = F,row.names = F,col.names = F)
   write.table(unique(DEG[DEG$sigORnot == 'UP','symbol']), file_upGeneList ,quote = F,row.names = F,col.names = F)
   write.table(unique(DEG[DEG$sigORnot == 'DOWN','symbol']), file_downGeneList ,quote = F,row.names = F,col.names = F)
+
   batch_enrichment( file_diffGeneList, file_allGeneList ,studyID=paste0(studyID,'_diff') )
   batch_enrichment( file_upGeneList, file_allGeneList,studyID=paste0(studyID,'_UP') )
   batch_enrichment( file_downGeneList, file_allGeneList,studyID=paste0(studyID,'_DOWN') )
+
+
+  logFC <- DEG$logFC;names(logFC) <- DEG$symbol
+
+  keggEnrichTable=read.csv( paste0(studyID,'_diff_update_kegg.enrichment.csv') ,stringsAsFactors = F)
+  keggEnrichTable=keggEnrichTable[keggEnrichTable$Pvalue<0.05,]
+  diff_gene_list = read.table( file_diffGeneList ,stringsAsFactors = F)[,1]
+  add_kegg_up_down_link(keggEnrichTable,logFC,diff_gene_list,studyID = paste0(studyID,'_diff'))
+
+  keggEnrichTable=read.csv( paste0(studyID,'_UP_update_kegg.enrichment.csv') ,stringsAsFactors = F)
+  keggEnrichTable=keggEnrichTable[keggEnrichTable$Pvalue<0.05,]
+  diff_gene_list = read.table( file_diffGeneList ,stringsAsFactors = F)[,1]
+  add_kegg_up_down_link(keggEnrichTable,logFC,diff_gene_list,studyID = paste0(studyID,'_UP'))
+
+  keggEnrichTable=read.csv( paste0(studyID,'_DOWN_update_kegg.enrichment.csv') ,stringsAsFactors = F)
+  keggEnrichTable=keggEnrichTable[keggEnrichTable$Pvalue<0.05,]
+  diff_gene_list = read.table( file_diffGeneList ,stringsAsFactors = F)[,1]
+  add_kegg_up_down_link(keggEnrichTable,logFC,diff_gene_list,studyID = paste0(studyID,'_DOWN'))
+
+
 
   tmpAnno <- geneAnno(unique(DEG$symbol));dim(tmpAnno)
   DEG <- merge(DEG,tmpAnno,by='symbol');dim(DEG)
