@@ -30,9 +30,9 @@ createGSEAinput <- function(studyID='GSE1009',exprSet=example_exprSet ,group_lis
 
   cls_file=paste0(studyID,'.cls')
   sink( cls_file )
-  cat(paste0( length(group_list)  ,"\t",length(unique(group_list)) ,"\t1\n") )
-  cat(paste0("#",paste(unique(group_list),collapse = '\t') ,"\n"))
-  cat(paste(group_list,collapse = '\t'))
+  cat(paste0( length(group_list)  ," ",length(unique(group_list)) ," 1\n") )
+  cat(paste0("# ",paste(unique(group_list),collapse = ' ') ,"\n"))
+  cat(paste(group_list,collapse = ' '))
   sink()
 }
 

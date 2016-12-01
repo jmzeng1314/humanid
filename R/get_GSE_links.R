@@ -36,38 +36,47 @@ get_GSE_links <- function(studyID='GSE1009',down=F,destdir='./'){
   print (paste0('The URL for raw data is : ',supp_link))
   print (paste0('The URL for metadata is : ',meta_link))
   print (paste0('The URL for matrix   is : ',matrix_link))
+
   if(down){
-    if( !file.exists( file.path(destdir,studyID) ) ){
-      dir.create( ( file.path(destdir,studyID) ) )
-    }
-    #download.file(meta_link,destfile = "./tmp.csv")
-    a=read.csv(meta_link)
-    write.csv(a,file.path(destdir,paste0(studyID,".meta.txt")))
-    download.file(supp_link,
-                  destfile = file.path(destdir,studyID,paste0(studyID,"_RAW.tar")),
-                  method = 'auto'
-    )
-    download.file(matrix_link,
-                  destfile = file.path(destdir,paste0(studyID,"_series_matrix.txt.gz")),
-                  method = 'auto'
-    )
-    #system('tar xvf *.tar')
-    setwd(file.path(destdir,studyID))
-    for (i in list.files(pattern = "*tar")){
-      untar(i,exdir=destdir)
-    }
-    all_cel_files=list.files(destdir,pattern="^GSM")
-    old_dir <- getwd()
-    setwd(destdir)
-    for (i in all_cel_files){
-      if( grepl("[-_]",i) && (grepl(".CEL.gz",i)  || grepl(".cel.gz",i)  )){
-        new=paste(sub("[-_].*","",i),".CEL.gz",sep="")
-        file.rename(i,new)
-        print(paste0(i,"\t to \t",new,"\n"))
+    if (.Platform$OS.type == "windows") {
+      print('Wait a few months,we do not solve the problem about downloading files in windows!!!')
+    } else if (.Platform$OS.type == "unix") {
+
+      if( !file.exists( file.path(destdir,studyID) ) ){
+        dir.create( ( file.path(destdir,studyID) ) )
       }
+      #download.file(meta_link,destfile = "./tmp.csv")
+      a=read.csv(meta_link)
+      write.csv(a,file.path(destdir,paste0(studyID,".meta.txt")))
+      download.file(supp_link,
+                    destfile = file.path(destdir,studyID,paste0(studyID,"_RAW.tar")),
+                    method = 'auto'
+      )
+      download.file(matrix_link,
+                    destfile = file.path(destdir,paste0(studyID,"_series_matrix.txt.gz")),
+                    method = 'auto'
+      )
+      #system('tar xvf *.tar')
+      setwd(file.path(destdir,studyID))
+      for (i in list.files(pattern = "*tar")){
+        untar(i,exdir=destdir)
+      }
+      all_cel_files=list.files(destdir,pattern="^GSM")
+      old_dir <- getwd()
+      setwd(destdir)
+      for (i in all_cel_files){
+        if( grepl("[-_]",i) && (grepl(".CEL.gz",i)  || grepl(".cel.gz",i)  )){
+          new=paste(sub("[-_].*","",i),".CEL.gz",sep="")
+          file.rename(i,new)
+          print(paste0(i,"\t to \t",new,"\n"))
+        }
+      }
+      setwd(old_dir)
+      #system('mv *.CEL.gz ../')
+
     }
-    setwd(old_dir)
-    #system('mv *.CEL.gz ../')
+
+
   }
 }
 
