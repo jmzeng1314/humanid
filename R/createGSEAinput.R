@@ -1,12 +1,12 @@
-#' create gct file and cls file
+#' create gct file and cls files
 #'
 #' create gct file and cls file for GSEA according the expression matrix and group information
 #'
-#' @param studyID A standard study ID in GEO: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49822
-#' @param exprSet  a expression matrix, which columns are sample,rows are HUGO gene symbols.
+#' @param studyID The prefix for gct file and cls files.
+#' @param exprSet a expression matrix, which columns are sample,rows are HUGO gene symbols, or probeset ID .
 #' @param group_list a vector,as long as the col number for the expression matrix,which describe the group for the samples in exprSet
 #' @param destdir where to store the files just download.
-#' @return A expresstionSet,S4 object in R, which contain: assayData,phenoData,featureData
+#' @return write 2 files which are the input for GSEA (gct and cls format)
 #' @export
 #' @keywords downGSE
 #' @examples

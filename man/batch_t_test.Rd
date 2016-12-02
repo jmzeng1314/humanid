@@ -4,15 +4,13 @@
 \alias{batch_t_test}
 \title{do batch t.test for a matrix}
 \usage{
-batch_t_test(dat = matrix(rnorm(300), 30, 10), group1 = 1:5,
-  group2 = 6:10)
+batch_t_test(dat = matrix(rnorm(300), 30, 10), group_list = factor(c(rep(1,
+  5), rep(2, 5))))
 }
 \arguments{
-\item{dat}{An expression matrix which rownames are genes and columns are samples}
+\item{dat}{Matrix with microarray expression values.}
 
-\item{group1}{defined which columns belong to the first group as control}
-
-\item{group2}{defined which columns belong to the second group}
+\item{group_list}{Factors for two groups that are tested for differential expression.}
 }
 \value{
 a data.frame just like topTable
@@ -21,9 +19,9 @@ a data.frame just like topTable
 do batch t.test for a matrix
 }
 \examples{
-#'  batch_t_test(exprSet ,4:7,1:3)
+#'  batch_t_test()
 
 
 }
-\keyword{batch_enrichment}
+\keyword{batch_t_test}
 

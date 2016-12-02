@@ -2,22 +2,22 @@
 % Please edit documentation in R/createGSEAinput.R
 \name{createGSEAinput}
 \alias{createGSEAinput}
-\title{create gct file and cls file}
+\title{create gct file and cls files}
 \usage{
 createGSEAinput(studyID = "GSE1009", exprSet = example_exprSet, group_list,
   destdir = ".")
 }
 \arguments{
-\item{studyID}{A standard study ID in GEO: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49822}
+\item{studyID}{The prefix for gct file and cls files.}
 
-\item{exprSet}{a expression matrix, which columns are sample,rows are HUGO gene symbols.}
+\item{exprSet}{a expression matrix, which columns are sample,rows are HUGO gene symbols, or probeset ID .}
 
 \item{group_list}{a vector,as long as the col number for the expression matrix,which describe the group for the samples in exprSet}
 
 \item{destdir}{where to store the files just download.}
 }
 \value{
-A expresstionSet,S4 object in R, which contain: assayData,phenoData,featureData
+write 2 files which are the input for GSEA (gct and cls format)
 }
 \description{
 create gct file and cls file for GSEA according the expression matrix and group information
