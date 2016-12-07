@@ -9,7 +9,7 @@ Volcanic_DEG(DEG, imageType = "png", prefix = "test")
 \arguments{
 \item{DEG}{DEG=topTable(fit,coef=2,adjust='BH')}
 
-\item{imageType}{choose png or pdf}
+\item{imageType}{choose png or pdf or EMF}
 
 \item{prefix}{A standard study ID}
 }

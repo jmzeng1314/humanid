@@ -2,7 +2,7 @@
 #'
 #'
 #' @param DEG  DEG=topTable(fit,coef=2,adjust='BH')
-#' @param imageType choose png or pdf
+#' @param imageType choose png or pdf or EMF
 #' @param prefix A standard study ID
 #' @return plot 3 kind of volcanic figures
 #' @export
@@ -13,6 +13,7 @@
 #'
 Volcanic_DEG <- function(DEG,imageType='png',prefix='test'){
   library(ggplot2)
+  library(devEMF)
   res <- DEG
   res$Gene <- rownames(res)
   # Make a basic volcano plot
@@ -22,8 +23,10 @@ Volcanic_DEG <- function(DEG,imageType='png',prefix='test'){
     png(paste0(prefix,'_basic_volcanic.png'))
   }else if(imageType=='pdf'){
     pdf(paste0(prefix,'_basic_volcanic.pdf'))
+  }else if(imageType=='EMF'){
+    emf(paste0(prefix,'_basic_volcanic.EMF'))
   }else{
-    stop('we just afford png or pdf for the volcanic figures')
+    stop('we just afford png ,emf or pdf for the volcanic figures')
   }
 
   with(res, plot(logFC, -log10(P.Value), pch=20,main='',xlab='',ylab='') )
@@ -37,9 +40,12 @@ Volcanic_DEG <- function(DEG,imageType='png',prefix='test'){
     png(paste0(prefix,'_marker_gene_volcanic.png'))
   }else if(imageType=='pdf'){
     pdf(paste0(prefix,'_marker_gene_volcanic.pdf'))
+  }else if(imageType=='EMF'){
+    emf(paste0(prefix,'_marker_gene_volcanic.EMF'))
   }else{
-    stop('we just afford png or pdf for the volcanic figures')
+    stop('we just afford png ,emf or pdf for the volcanic figures')
   }
+
 
   with(res, plot(logFC, -log10(P.Value), pch=20, main="Volcano plot"))
   # Add colored points: red if padj<0.05, orange of log2FC>1, green if both)
@@ -58,12 +64,15 @@ Volcanic_DEG <- function(DEG,imageType='png',prefix='test'){
                       '\nThe number of up gene is ',nrow(res[res$change =='UP',]) ,
                       '\nThe number of down gene is ',nrow(res[res$change =='DOWN',])
   )
+
   if(imageType=='png'){
     png(paste0(prefix,'_ggplot_volcanic.png'))
   }else if(imageType=='pdf'){
     pdf(paste0(prefix,'_ggplot_volcanic.pdf'))
+  }else if(imageType=='EMF'){
+    emf(paste0(prefix,'_ggplot_volcanic.EMF'))
   }else{
-    stop('we just afford png or pdf for the volcanic figures')
+    stop('we just afford png ,emf or pdf for the volcanic figures')
   }
 
 

@@ -4,6 +4,7 @@
 #' especially for the ES core ,the running ES core, the gene sets !
 #' you need to prepare many data by yourself, I really can't help you with them.
 #'#'
+#' @param imageType choose png or pdf or EMF
 #' @param Ng  The number of the gene　sets, (eg: 200~300 kegg pathway)
 #' @param N   The number of the genes (probably 20,000~30,000 genes)
 #' @param phen1  The name for the first phenotype (default:control)
@@ -23,7 +24,7 @@
 #'
 #'
 
-plot_ES_score <- function(Ng=12,N=34688,phen1='control',phen2='case',Obs.RES,Obs.indicator,obs.s2n,size.G,gs.names,Obs.ES,Obs.arg.ES,Obs.ES.index){
+plot_ES_score <- function(imageType='png',Ng=12,N=34688,phen1='control',phen2='case',Obs.RES,Obs.indicator,obs.s2n,size.G,gs.names,Obs.ES,Obs.arg.ES,Obs.ES.index){
   if(F){
     ## it's commant here,
     setwd('data')
@@ -39,8 +40,19 @@ plot_ES_score <- function(Ng=12,N=34688,phen1='control',phen2='case',Obs.RES,Obs
     Obs.ES=read.table('Obs.ES.txt')[1,]
 
   }
+  library(ggplot2)
+  library(devEMF)
   for (i in 1:Ng) {
-    png(paste0('geneset_',gs.names[i],'.png'))
+    if(imageType=='png'){
+      png( paste0('geneset_',gs.names[i],'.png') )
+    }else if(imageType=='pdf'){
+      pdf( paste0('geneset_',gs.names[i],'.pdf') )
+    }else if(imageType=='EMF'){
+      emf( paste0('geneset_',gs.names[i],'.emf'))
+    }else{
+      stop('we just afford png ,emf or pdf for the volcanic figures')
+    }
+
     ind <- 1:N
     min.RES <- min(Obs.RES[i,])
     max.RES <- max(Obs.RES[i,])
