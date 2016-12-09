@@ -139,9 +139,17 @@ fit=eBayes(fit)
 options(digits = 4)
 
 DEG <- topTable(fit,coef=2,adjust='BH',n=Inf)
-
+Volcanic_DEG(DEG)
 DEG$symbol <- rownames(DEG)
+
 format_DEG(DEG,studyID)
+
+setwd('test')
+input.ds.file = 'input/test.gct'
+input.cls.file= 'input/test.cls'
+gs.db.file= 'input/c2.MESENCHYMAL.v5.2.symbols.gmt'
+output.directory = 'results/'
+GSEA(input.ds =  input.ds.file,input.cls =input.cls.file ,gs.db = gs.db.file ,output.directory='./', reshuffling.type      = "gene.labels")
 
 
 ```

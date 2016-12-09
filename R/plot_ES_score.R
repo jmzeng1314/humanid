@@ -4,8 +4,8 @@
 #' especially for the ES core ,the running ES core, the gene sets !
 #' you need to prepare many data by yourself, I really can't help you with them.
 #'#'
-#' @param imageType choose png or pdf or EMF
-#' @param Ng  The number of the gene　sets, (eg: 200~300 kegg pathway)
+#' @param imageType choose png,pdf,emf,tiff,jpeg,bmp
+#' @param Ng  The number of the gene sets, (eg: 200~300 kegg pathway)
 #' @param N   The number of the genes (probably 20,000~30,000 genes)
 #' @param phen1  The name for the first phenotype (default:control)
 #' @param phen2  The name for the second phenotype (default:case)
@@ -20,11 +20,11 @@
 #' @export
 #' @keywords plot_ES_score
 #' @examples
-#' #'  plot_ES_score(Ng=12,N=34688,phen1='control',phen2='case',Obs.RES,Obs.indicator,obs.s2n,size.G,gs.names,Obs.ES,Obs.arg.ES,Obs.ES.index)
+#' #'  plot_ES_score(imageType='png',width = 680,height = 680 ,Ng=12,N=34688,phen1='Control',phen2='case',Obs.RES,Obs.indicator,obs.s2n,size.G,gs.names,Obs.ES,Obs.arg.ES,Obs.ES.index)
 #'
 #'
 
-plot_ES_score <- function(imageType='png',Ng=12,N=34688,phen1='control',phen2='case',Obs.RES,Obs.indicator,obs.s2n,size.G,gs.names,Obs.ES,Obs.arg.ES,Obs.ES.index){
+plot_ES_score <- function(imageType='png',width = 680,height = 680 ,res=200,Ng=12,N=34688,phen1='control',phen2='case',Obs.RES,Obs.indicator,obs.s2n,size.G,gs.names,Obs.ES,Obs.arg.ES,Obs.ES.index){
   if(F){
     ## it's commant here,
     setwd('data')
@@ -40,18 +40,22 @@ plot_ES_score <- function(imageType='png',Ng=12,N=34688,phen1='control',phen2='c
     Obs.ES=read.table('Obs.ES.txt')[1,]
 
   }
+  par(mar=c(5,3,2,2)+0.1)
+
   library(ggplot2)
   library(devEMF)
   for (i in 1:Ng) {
-    if(imageType=='png'){
-      png( paste0('geneset_',gs.names[i],'.png') )
-    }else if(imageType=='pdf'){
-      pdf( paste0('geneset_',gs.names[i],'.pdf') )
-    }else if(imageType=='EMF'){
-      emf( paste0('geneset_',gs.names[i],'.emf'))
+    tmp_create_figures = get(imageType) ## A function
+    if (  imageType %in% c('png','tiff','jpeg','bmp') ) {
+      tmp_create_figures( paste0('geneset_',gs.names[i],'.',imageType),width = width,height = height ,res=res)
+      cex = 0.8
+    } else if (  imageType %in% c('pdf','emf')  ){
+      tmp_create_figures( paste0('geneset_',gs.names[i],'.',imageType) )
+      cex = 1
     }else{
-      stop('we just afford png ,emf or pdf for the volcanic figures')
+      stop(' we just accept png,pdf,emf,tiff,jpeg,bmp !!!')
     }
+
 
     ind <- 1:N
     min.RES <- min(Obs.RES[i,])
@@ -71,39 +75,48 @@ plot_ES_score <- function(imageType='png',Ng=12,N=34688,phen1='control',phen2='c
 
     sub.string <- paste("Number of genes: ", N, " (in list), ", size.G[i], " (in gene set)", sep = "", collapse="")
 
-    main.string <- paste("Gene Set ", i, ":", gs.names[i])
+    #main.string <- paste("Gene Set ", i, ":", gs.names[i])
+    main.string <- gs.names[i]
 
-    plot(ind, Obs.RES[i,], main = main.string, sub = sub.string, xlab = "Gene List Index", ylab = "Running Enrichment Score (RES)", xlim=c(1, N), ylim=c(min.plot, max.plot), type = "l", lwd = 2, cex = 1, col = col)
+    plot(ind, Obs.RES[i,], main = main.string,cex.main=0.8,cex.sub=0.8,
+         sub = sub.string, xlab = "Gene List Index", ylab = "Running Enrichment Score (RES)",
+         xlim=c(1, N), ylim=c(min.plot, max.plot), type = "l", lwd = 2, col = col)
     for (j in seq(1, N, 20)) {
-      lines(c(j, j), c(zero.corr.line, Obs.correl.vector.norm[j]), lwd = 1, cex = 1, col = colors()[12]) # shading of correlation plot
+      lines(c(j, j), c(zero.corr.line, Obs.correl.vector.norm[j]), lwd = 1, cex = cex, col = colors()[12]) # shading of correlation plot
     }
-    lines(c(1, N), c(0, 0), lwd = 1, lty = 2, cex = 1, col = 1) # zero RES line
-    lines(c(Obs.arg.ES[i], Obs.arg.ES[i]), c(min.plot, max.plot), lwd = 1, lty = 3, cex = 1, col = col) # max enrichment vertical line
+    lines(c(1, N), c(0, 0), lwd = 1, lty = 2, cex = cex, col = 1) # zero RES line
+    lines(c(Obs.arg.ES[i], Obs.arg.ES[i]), c(min.plot, max.plot), lwd = 1, lty = 3, cex = cex, col = col) # max enrichment vertical line
     for (j in 1:N) {
       if (Obs.indicator[i, j] == 1) {
-        lines(c(j, j), c(min.plot + 1.25*delta, min.plot + 1.75*delta), lwd = 1, lty = 1, cex = 1, col = 1)  # enrichment tags
+        lines(c(j, j), c(min.plot + 1.25*delta, min.plot + 1.75*delta), lwd = 1, lty = 1, cex = cex, col = 1)  # enrichment tags
       }
     }
-    lines(ind, Obs.correl.vector.norm, type = "l", lwd = 1, cex = 1, col = 1)
-    lines(c(1, N), c(zero.corr.line, zero.corr.line), lwd = 1, lty = 1, cex = 1, col = 1) # zero correlation horizontal line
+    lines(ind, Obs.correl.vector.norm, type = "l", lwd = 1, cex = cex, col = 1)
+    lines(c(1, N), c(zero.corr.line, zero.corr.line), lwd = 1, lty = 1, cex = cex, col = 1) # zero correlation horizontal line
     temp <- order(abs(obs.s2n), decreasing=T)
     arg.correl <- temp[N]
-    lines(c(arg.correl, arg.correl), c(min.plot, max.plot), lwd = 1, lty = 3, cex = 1, col = 3) # zero crossing correlation vertical line
+    lines(c(arg.correl, arg.correl), c(min.plot, max.plot), lwd = 1, lty = 3, cex = cex, col = 3) # zero crossing correlation vertical line
 
     leg.txt <- paste("\"", phen1, "\" ", sep="", collapse="")
-    text(x=1, y=min.plot, adj = c(0, 0), labels=leg.txt, cex = 1.0)
+    text(x=1, y=min.plot, adj = c(0, 0), labels=leg.txt, cex = cex)
 
     leg.txt <- paste("\"", phen2, "\" ", sep="", collapse="")
-    text(x=N, y=min.plot, adj = c(1, 0), labels=leg.txt, cex = 1.0)
+    text(x=N, y=min.plot, adj = c(1, 0), labels=leg.txt, cex = cex)
 
     adjx <- ifelse(Obs.ES[i] > 0, 0, 1)
 
     leg.txt <- paste("Peak at ", Obs.arg.ES[i], sep="", collapse="")
-    text(x=Obs.arg.ES[i], y=min.plot + 1.8*delta, adj = c(adjx, 0), labels=leg.txt, cex = 1.0)
+    text(x=Obs.arg.ES[i], y=min.plot + 1.8*delta, adj = c(adjx, 0), labels=leg.txt, cex = cex)
 
     leg.txt <- paste("Zero crossing at ", arg.correl, sep="", collapse="")
-    text(x=arg.correl, y=min.plot + 1.95*delta, adj = c(adjx, 0), labels=leg.txt, cex = 1.0)
+    text(x=arg.correl, y=min.plot + 1.95*delta, adj = c(adjx, 0), labels=leg.txt, cex = cex)
     dev.off()
   }
 
 }
+
+#plot_ES_score(imageType='emf',width = 480,height = 480 ,res=170,Ng=12,N=34688,phen1='Control',phen2='CBX6',
+ #             Obs.RES,Obs.indicator,obs.s2n,size.G,gs.names,Obs.ES,Obs.arg.ES,Obs.ES.index)
+
+
+

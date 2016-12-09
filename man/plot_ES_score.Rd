@@ -4,14 +4,14 @@
 \alias{plot_ES_score}
 \title{re-draw ES-score figures for GSEA}
 \usage{
-plot_ES_score(imageType = "png", Ng = 12, N = 34688, phen1 = "control",
-  phen2 = "case", Obs.RES, Obs.indicator, obs.s2n, size.G, gs.names, Obs.ES,
-  Obs.arg.ES, Obs.ES.index)
+plot_ES_score(imageType = "png", width = 680, height = 680, res = 200,
+  Ng = 12, N = 34688, phen1 = "control", phen2 = "case", Obs.RES,
+  Obs.indicator, obs.s2n, size.G, gs.names, Obs.ES, Obs.arg.ES, Obs.ES.index)
 }
 \arguments{
-\item{imageType}{choose png or pdf or EMF}
+\item{imageType}{choose png,pdf,emf,tiff,jpeg,bmp}
 
-\item{Ng}{The number of the gene　sets, (eg: 200~300 kegg pathway)}
+\item{Ng}{The number of the gene sets, (eg: 200~300 kegg pathway)}
 
 \item{N}{The number of the genes (probably 20,000~30,000 genes)}
 
@@ -43,7 +43,7 @@ you need to prepare many data by yourself, I really can't help you with them.
 #'
 }
 \examples{
-#'  plot_ES_score(Ng=12,N=34688,phen1='control',phen2='case',Obs.RES,Obs.indicator,obs.s2n,size.G,gs.names,Obs.ES,Obs.arg.ES,Obs.ES.index)
+#'  plot_ES_score(imageType='png',width = 680,height = 680 ,Ng=12,N=34688,phen1='Control',phen2='case',Obs.RES,Obs.indicator,obs.s2n,size.G,gs.names,Obs.ES,Obs.arg.ES,Obs.ES.index)
 
 
 }
