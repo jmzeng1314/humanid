@@ -10,7 +10,7 @@
 #' #'  format_DEG(DEG)
 #'
 #'
-format_DEG <- function(DEG,studyID='test'){
+format_DEG <- function(DEG,studyID='test',GOstats=F){
 
   logFC_Cutof <- mean(abs(DEG$logFC)) + 2*sd(abs(DEG$logFC))
   table( abs(DEG$logFC) > logFC_Cutof & DEG$P.Value <0.05 )
@@ -34,9 +34,9 @@ format_DEG <- function(DEG,studyID='test'){
   write.table(unique(DEG[DEG$sigORnot == 'UP','symbol']), file_upGeneList ,quote = F,row.names = F,col.names = F)
   write.table(unique(DEG[DEG$sigORnot == 'DOWN','symbol']), file_downGeneList ,quote = F,row.names = F,col.names = F)
 
-  batch_enrichment( file_diffGeneList, file_allGeneList ,studyID=paste0(studyID,'_diff') )
-  batch_enrichment( file_upGeneList, file_allGeneList,studyID=paste0(studyID,'_UP') )
-  batch_enrichment( file_downGeneList, file_allGeneList,studyID=paste0(studyID,'_DOWN') )
+  batch_enrichment( file_diffGeneList, file_allGeneList ,studyID=paste0(studyID,'_diff'),GOstats=GOstats)
+  batch_enrichment( file_upGeneList, file_allGeneList,studyID=paste0(studyID,'_UP') ,GOstats=GOstats)
+  batch_enrichment( file_downGeneList, file_allGeneList,studyID=paste0(studyID,'_DOWN'),GOstats=GOstats )
 
 
   logFC <- DEG$logFC;names(logFC) <- DEG$symbol
