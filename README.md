@@ -31,9 +31,10 @@ please feel free to contact with me if there's bug in my package, so far it's ve
 ## A basic example to use this package:
 
 ```R
-library(humanid);library(GEOquery)
+lapply(c('humanid','GEOquery','hugene10sttranscriptcluster.db'),function(x) library(x,character.only = T))
 studyID <- 'GSE42872'
 eSet<-getGEO(studyID, destdir='./',getGPL= F)
+## you'd check the pdata(eSet) manually 
 exprSet<-get_symbol_exprSet(eSet[[1]],'hugene10sttranscriptcluster.db')
 QCexpressionMatrix(exprSet = exprSet,group_list =c(1,1,1,0,0,0) ,prefix =studyID )
 createGSEAinput(prefix =studyID ,exprSet,group_list =c(1,1,1,0,0,0))
