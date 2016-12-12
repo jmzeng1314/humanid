@@ -4,12 +4,14 @@
 \alias{QCexpressionMatrix}
 \title{Do basic QC for a expression matrix.}
 \usage{
-QCexpressionMatrix(exprSet, group_list = "NO", project = "test")
+QCexpressionMatrix(exprSet, group_list = "NO", prefix = "test")
 }
 \arguments{
 \item{exprSet}{a expression matrix, which columns are sample,rows are HUGO gene symbols.}
 
 \item{group_list}{a vector,as long as the col number for the expression matrix,which describe the group for the samples in exprSet}
+
+\item{prefix}{The prefix for all of the output files.}
 }
 \value{
 generate QC figures for  expression matrix
@@ -19,7 +21,7 @@ Basic QC include:boxplot and hist figures for expression value distribution
                  correlations among the samples by clustering
 }
 \examples{
-#' QCexpressionMatrix(example_exprSet,group_list,project='test')
+#' QCexpressionMatrix(example_exprSet,group_list,prefix='test')
 }
 \keyword{QC}
 

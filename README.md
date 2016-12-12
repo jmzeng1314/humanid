@@ -28,6 +28,25 @@ please feel free to contact with me if there's bug in my package, so far it's ve
 
 ------
 
+## A basic example to use this package:
+
+```R
+library(humanid);library(GEOquery)
+studyID <- 'GSE42872'
+eSet<-getGEO(studyID, destdir='./',getGPL= F)
+exprSet<-get_symbol_exprSet(eSet[[1]],'hugene10sttranscriptcluster.db')
+QCexpressionMatrix(exprSet = exprSet,group_list =c(1,1,1,0,0,0) ,prefix =studyID )
+createGSEAinput(prefix =studyID ,exprSet,group_list =c(1,1,1,0,0,0))
+DEG <-do_DEG_2groups(prefix =studyID ,
+                     exprSet= exprSet,
+                     group_list=c(1,1,1,0,0,0),
+                     method='limma')
+DEG$symbol<-rownames(DEG);
+format_DEG(DEG,prefix =studyID ,GOstats = T) 
+## it will take about 10 minutes, you can set the GOstats = F to speed up this process.
+```
+
+
 
 ```R
 ## this is a test, don't run it.

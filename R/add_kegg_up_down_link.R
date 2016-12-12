@@ -7,16 +7,16 @@
 #' @param keggEnrichTable a data.frame which must have PathwayID and pathway_name columns
 #' @param logFC  A numeric vector, the names for the vector are gene lists.
 #' @param diff_gene_list   a vector which contain the significantly DEGs. symbol or entrez ID.
-#' @param studyID A standard study ID,default:test
+#' @param prefix The prefix for all of the output files.
 #' @return write a html file with links for the keggEnrichTable
 #' @export
 #' @keywords keggAnno
 #' @examples
-#' #' add_kegg_up_down_link(keggEnrichTable , DEG , diff_gene_list,studyID)
+#' #' add_kegg_up_down_link(keggEnrichTable , DEG , diff_gene_list,prefix)
 
 
 
-add_kegg_up_down_link <- function(keggEnrichTable , logFC , diff_gene_list ,studyID='test'){
+add_kegg_up_down_link <- function(keggEnrichTable , logFC , diff_gene_list ,prefix='test'){
   keggEnrichTable$links=apply(keggEnrichTable, 1, function(x){
     this_keggID <- sub('hsa:','',x['PathwayID'])
 
@@ -37,6 +37,6 @@ add_kegg_up_down_link <- function(keggEnrichTable , logFC , diff_gene_list ,stud
   })
 
   y <- DT::datatable(keggEnrichTable,escape = F,rownames=F)
-  DT::saveWidget(y, paste0(studyID,'_kegg_links.html'))
+  DT::saveWidget(y, paste0(prefix,'_kegg_links.html'))
 
 }

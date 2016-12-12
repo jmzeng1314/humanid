@@ -32,7 +32,7 @@ lastly, you can output the annotation to a html file,just like:geneAnno(kegg2Gen
 for each kegg pathway, you will like this function I guess. So have a fun .
 }
 \examples{
-#'  geneAnno();geneAnno('TP53');geneAnno(kegg2GeneID[['01212']],file = T,prefix = as.character(kegg2name['01212','pathway_name'])
+geneAnno();geneAnno('TP53');geneAnno(kegg2GeneID[['01212']],file = T,prefix = as.character(kegg2name['01212','pathway_name'])
 lapply(names(kegg2GeneID),function(x) geneAnno(kegg2GeneID[[x]],file = T,prefix = as.character(kegg2name[x,'pathway_name'])))
 
 }

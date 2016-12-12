@@ -4,12 +4,12 @@
 \alias{format_DEG}
 \title{write some files from the DEG results from topTable(limma)}
 \usage{
-format_DEG(DEG, studyID = "test", GOstats = F)
+format_DEG(DEG, prefix = "test", GOstats = F)
 }
 \arguments{
 \item{DEG}{DEG=topTable(fit,coef=2,adjust='BH')}
 
-\item{studyID}{A standard study ID}
+\item{prefix}{The prefix for all of the output files.}
 }
 \value{
 write some files

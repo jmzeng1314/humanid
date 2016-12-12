@@ -4,11 +4,11 @@
 \alias{createGSEAinput}
 \title{create gct file and cls files}
 \usage{
-createGSEAinput(studyID = "GSE1009", exprSet = example_exprSet, group_list,
+createGSEAinput(prefix = "GSE1009", exprSet = example_exprSet, group_list,
   destdir = ".")
 }
 \arguments{
-\item{studyID}{The prefix for gct file and cls files.}
+\item{prefix}{The prefix for gct file and cls files.}
 
 \item{exprSet}{a expression matrix, which columns are sample,rows are HUGO gene symbols, or probeset ID .}
 
@@ -23,7 +23,7 @@ write 2 files which are the input for GSEA (gct and cls format)
 create gct file and cls file for GSEA according the expression matrix and group information
 }
 \examples{
-#' createGSEAinput('GSE1009')
+#' createGSEAinput('GSE1009',exprSet,group_list)
 }
 \keyword{downGSE}
 

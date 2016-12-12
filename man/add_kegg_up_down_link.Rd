@@ -4,8 +4,7 @@
 \alias{add_kegg_up_down_link}
 \title{add links for the KEGG enrichment table.}
 \usage{
-add_kegg_up_down_link(keggEnrichTable, logFC, diff_gene_list,
-  studyID = "test")
+add_kegg_up_down_link(keggEnrichTable, logFC, diff_gene_list, prefix = "test")
 }
 \arguments{
 \item{keggEnrichTable}{a data.frame which must have PathwayID and pathway_name columns}
@@ -14,7 +13,7 @@ add_kegg_up_down_link(keggEnrichTable, logFC, diff_gene_list,
 
 \item{diff_gene_list}{a vector which contain the significantly DEGs. symbol or entrez ID.}
 
-\item{studyID}{A standard study ID,default:test}
+\item{prefix}{The prefix for all of the output files.}
 }
 \value{
 write a html file with links for the keggEnrichTable
@@ -25,7 +24,7 @@ KEGG enrichment table comes from the stantard hyperG test. the PathwayID and pat
  diff_gene_list also comes from DEG results.
 }
 \examples{
-#' add_kegg_up_down_link(keggEnrichTable , DEG , diff_gene_list,studyID)
+#' add_kegg_up_down_link(keggEnrichTable , DEG , diff_gene_list,prefix)
 }
 \keyword{keggAnno}
 

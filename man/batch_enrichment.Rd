@@ -4,7 +4,7 @@
 \alias{batch_enrichment}
 \title{enrichment for GO/KEGG}
 \usage{
-batch_enrichment(diff_gene_file, all_genes_file, studyID = "test",
+batch_enrichment(diff_gene_file, all_genes_file, prefix = "test",
   GOstats = F)
 }
 \arguments{
@@ -12,7 +12,7 @@ batch_enrichment(diff_gene_file, all_genes_file, studyID = "test",
 
 \item{all_genes_file}{the same to the diff_gene_file, contain more genes than it.}
 
-\item{studyID}{A standard study ID}
+\item{prefix}{The prefix for the output files.}
 
 \item{GOstats}{whether use GOstats or not , defaults:F}
 }

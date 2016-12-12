@@ -3,7 +3,7 @@
 #' please make sure that there are just two group for you expression matrix, you should modify the code in this function if there's more than 2 group.
 #' I highly suggest you to use Limma to analysis
 #'
-#' @param studyID    The prefix for all of the output files.( we don't need it now actually)
+#' @param prefix    The prefix for all of the output files.( we don't need it now actually)
 #' @param exprSet    Matrix with microarray expression values.
 #' @param group_list Factors for two groups that are tested for differential expression.
 #' @param method     which method do you choose, limma,samr,rowttest in genefilter,resamplingPvalues in BioNet,t.test
@@ -15,7 +15,7 @@
 #' #' do_DEG_2groups('CLL',exprSet,group_list,method='limma')
 
 
-do_DEG_2groups  <- function(studyID='GSE1009',exprSet=example_exprSet ,group_list ,method,destdir='.'){
+do_DEG_2groups  <- function(prefix='GSE1009',exprSet=example_exprSet ,group_list ,method,destdir='.'){
   # library(CLL)
   # data(sCLLex)
   # suppressMessages(library(limma))

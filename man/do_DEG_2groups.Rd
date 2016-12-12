@@ -4,11 +4,11 @@
 \alias{do_DEG_2groups}
 \title{Do differential expression analysis for the expression matrix}
 \usage{
-do_DEG_2groups(studyID = "GSE1009", exprSet = example_exprSet, group_list,
+do_DEG_2groups(prefix = "GSE1009", exprSet = example_exprSet, group_list,
   method, destdir = ".")
 }
 \arguments{
-\item{studyID}{The prefix for all of the output files.( we don't need it now actually)}
+\item{prefix}{The prefix for all of the output files.( we don't need it now actually)}
 
 \item{exprSet}{Matrix with microarray expression values.}
 
