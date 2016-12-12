@@ -5,7 +5,7 @@
 \title{annotate gene name or map for entrez id or symbol}
 \usage{
 geneAnno(geneLists = c(1, 2, 9), name = T, map = F, ensembl = F,
-  accnum = F)
+  accnum = F, file = F, prefix = "test")
 }
 \arguments{
 \item{geneLists}{a character vector for gene entrez ID list,default: c(1,2,9)}
@@ -17,12 +17,24 @@ geneAnno(geneLists = c(1, 2, 9), name = T, map = F, ensembl = F,
 \item{ensembl}{choose whether annotate gene ensembl  for the gene id or not , default : F}
 
 \item{accnum}{choose whether annotate gene accnum   for the gene id or not , default : F}
+
+\item{file}{choose whether print the annotate results into a file or not , default : F}
+
+\item{prefix}{define the prefix for the output file, default : test}
 }
 \value{
 a data.frame which has more than 2 column
 }
 \description{
-somethins
+So far, we accept entrez gene id or symbol as input to be annotated. such as 7157 or TP53. you just need to assign the geneLists,a character vector
+Then we'll annotate the name by default, and also you can choose map,ensembl,accnum to be annotated or not.
+lastly, you can output the annotation to a html file,just like:geneAnno(kegg2GeneID[['01212']],file = T,prefix = as.character(kegg2name['01212','pathway_name'])
+for each kegg pathway, you will like this function I guess. So have a fun .
+}
+\examples{
+#'  geneAnno();geneAnno('TP53');geneAnno(kegg2GeneID[['01212']],file = T,prefix = as.character(kegg2name['01212','pathway_name'])
+lapply(names(kegg2GeneID),function(x) geneAnno(kegg2GeneID[[x]],file = T,prefix = as.character(kegg2name[x,'pathway_name'])))
+
 }
 \keyword{geneAnno}
 
