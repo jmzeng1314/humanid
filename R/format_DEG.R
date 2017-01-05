@@ -10,20 +10,34 @@
 #' #'  format_DEG(DEG)
 #'
 #'
-format_DEG <- function(DEG,prefix='test',GOstats=F){
+format_DEG <-  function(DEG,prefix='test',logFC_cutoff=0,pvalue_cutoff=0,padjust_cutoff=0,GOstats=F){
+  if(logFC_cutoff ==0 ){
+    logFC_cutoff  <- mean(abs(DEG$logFC)) + 2*sd(abs(DEG$logFC))
+  }
 
-  logFC_Cutof <- mean(abs(DEG$logFC)) + 2*sd(abs(DEG$logFC))
-  table( abs(DEG$logFC) > logFC_Cutof & DEG$P.Value <0.05 )
-  DEG$sigORnot <- ifelse(abs(DEG$logFC) > logFC_Cutof & DEG$P.Value <0.05 ,ifelse(DEG$logFC > logFC_Cutof,'UP','DOWN'),'NOT')
-  table( DEG$sigORnot )
+  if(pvalue_cutoff  ==0  ){
+    pvalue_cutoff  <- 0.05
+  }
+  print ( paste0("The cutoff for the logFC is : ",logFC_cutoff))
+  print(table( abs(DEG$logFC) > logFC_cutoff & DEG$P.Value <pvalue_cutoff ))
+
+  if( padjust_cutoff  ==0 ){
+
+    DEG$sigORnot <- ifelse(abs(DEG$logFC) > logFC_cutoff & DEG$P.Value <pvalue_cutoff ,ifelse(DEG$logFC > logFC_cutoff,'UP','DOWN'),'NOT')
+
+  }else{
+    DEG$sigORnot <- ifelse(abs(DEG$logFC) > logFC_cutoff & DEG$P.Value <padjust_cutoff ,ifelse(DEG$logFC > logFC_cutoff,'UP','DOWN'),'NOT')
+
+  }
+  print(table( DEG$sigORnot ))
 
   Volcanic_DEG(DEG,imageType = 'png',prefix = prefix)
 
   # png( paste0(prefix,'_volcanic.png') )
-  # plot(DEG$logFC,DEG$P.Value,main =logFC_Cutof )
+  # plot(DEG$logFC,DEG$P.Value,main =logFC_cutoff )
   # abline(h = 0.05,col='blue')
-  # abline(v=logFC_Cutof,col='red')
-  # abline(v=-logFC_Cutof,col='red')
+  # abline(v=logFC_cutoff,col='red')
+  # abline(v=-logFC_cutoff,col='red')
   # dev.off()
 
   file_allGeneList = paste0(prefix,'_allGeneList.txt')
