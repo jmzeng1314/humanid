@@ -11,6 +11,12 @@ format_DEG(DEG, prefix = "test", logFC_cutoff = 0, pvalue_cutoff = 0,
 \item{DEG}{DEG=topTable(fit,coef=2,adjust='BH')}
 
 \item{prefix}{The prefix for all of the output files.}
+
+\item{logFC_cutoff}{The cutoff for logFC    to choose DEG, default:mean(abs(DEG$logFC)) + 2*sd(abs(DEG$logFC))}
+
+\item{pvalue_cutoff}{The cutoff for pvalue   to choose DEG, default:0.05}
+
+\item{padjust_cutoff}{The cutoff for p.adjust to choose DEG, default:none}
 }
 \value{
 write some files

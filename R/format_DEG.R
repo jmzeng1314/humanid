@@ -3,6 +3,9 @@
 #'
 #' @param DEG  DEG=topTable(fit,coef=2,adjust='BH')
 #' @param prefix The prefix for all of the output files.
+#' @param logFC_cutoff   The cutoff for logFC    to choose DEG, default:mean(abs(DEG$logFC)) + 2*sd(abs(DEG$logFC))
+#' @param pvalue_cutoff  The cutoff for pvalue   to choose DEG, default:0.05
+#' @param padjust_cutoff The cutoff for p.adjust to choose DEG, default:none
 #' @return write some files
 #' @export
 #' @keywords format_DEG

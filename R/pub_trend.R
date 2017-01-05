@@ -4,6 +4,7 @@
 #' Then you can search any topic by the keywords you offer,such as "3C","4C","5C","Hi-C" or 'H3K4ME1','H3K4ME2' ,'H3K4ME3'.
 #' It should be the same result when you search the keyword in pubmed : https://www.ncbi.nlm.nih.gov/pubmed/?term=H3K4ME1
 #' Also you can narrow down the period for this search , such as from 2010 to 2016, as you will .
+#' Thanks HaiTao (my friend) for the contribution .
 #'
 #' @param years A simple vector to narrow down the search area, default : 2010:2016
 #' @param keywords A simple vector contains the keywords,such as "3C","4C","5C","Hi-C","ChIA???PET","3D chromosome"
