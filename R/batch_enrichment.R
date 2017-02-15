@@ -16,7 +16,7 @@
 #'
 batch_enrichment <- function(diff_gene_file,all_genes_file,file='T',prefix='test',GOstats=F ){
 
-  if( file.exists('README.MD') && file.exists('Rplots.pdf') ){
+  if( file.exists(diff_gene_file) && file.exists(all_genes_file) ){
     diff_gene_list = read.table(diff_gene_file,stringsAsFactors = F)[,1]
     all_genes_list = read.table(all_genes_file,stringsAsFactors = F)[,1]
   }else{
