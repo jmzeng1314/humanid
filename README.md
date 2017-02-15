@@ -26,6 +26,15 @@ please feel free to contact with me if there's bug in my package, so far it's ve
 
 >  I perfer email communication: jmzeng1314@163.com 
 
+For linux user, it's not easy to install my package, I'm so sorry for that.
+you should intall R and Rstudio also in linux, and then git clone my package, Then type R:
+```R
+setwd("/home/your/Downloads/humanid/")
+library(devtools)
+build()
+install()
+```
+
 ------
 
 ## A basic example to use this package:

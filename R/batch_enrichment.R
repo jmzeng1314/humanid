@@ -1,8 +1,10 @@
 #' enrichment for GO/KEGG
 #'
 #'
-#' @param diff_gene_file   just one column, gene HUGO symbol or entrez ID , no need for column name.
-#' @param all_genes_file   the same to the diff_gene_file, contain more genes than it.
+#' @param diff_gene_file      A text file which contain just one column, gene HUGO symbol or entrez ID , no need for column name.
+#' @param all_genes_file      the same to the diff_gene_file, contain more genes than it.
+#' @param diff_gene_vector    A vector contail a list of gene HUGO symbol or entrez ID
+#' @param all_genes_vector    the same to the diff_gene_vector, contain more genes than it.
 #' @param prefix The prefix for the output files.
 #' @param GOstats whether use GOstats or not , defaults:F
 #' @return write enrichment results into files.
@@ -12,10 +14,15 @@
 #' #'  batch_enrichment('diff_gene_file.txt','all_genes_file.txt')
 #'
 #'
-batch_enrichment <- function(diff_gene_file,all_genes_file,prefix='test',GOstats=F ){
+batch_enrichment <- function(diff_gene_file,all_genes_file,file='T',prefix='test',GOstats=F ){
 
-  diff_gene_list = read.table(diff_gene_file,stringsAsFactors = F)[,1]
-  all_genes_list = read.table(all_genes_file,stringsAsFactors = F)[,1]
+  if( file.exists('README.MD') && file.exists('Rplots.pdf') ){
+    diff_gene_list = read.table(diff_gene_file,stringsAsFactors = F)[,1]
+    all_genes_list = read.table(all_genes_file,stringsAsFactors = F)[,1]
+  }else{
+
+  }
+
   diff_gene_list =  unique(geneAnno(diff_gene_list)$gene_id)
   all_genes_list =  unique(geneAnno(all_genes_list)$gene_id)
 

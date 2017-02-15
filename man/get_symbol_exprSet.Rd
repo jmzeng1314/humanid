@@ -4,12 +4,14 @@
 \alias{get_symbol_exprSet}
 \title{extract the expression matrix from a eSet object}
 \usage{
-get_symbol_exprSet(eSet, platformDB = "hgu133plus2.db")
+get_symbol_exprSet(eSet, platformDB = "hgu133plus2.db", filter = TRUE)
 }
 \arguments{
 \item{eSet}{A expresstionSet,S4 object in R, which contain: assayData,phenoData,featureData}
 
-\item{platformDB}{which microarray platform does the eSet use ?}
+\item{platformDB}{which microarray platform does the eSet use,such as  illuminaHumanv4.db, hgu133plus2.db}
+
+\item{filter}{whether to filter genes show very low expression values, default:TRUE}
 }
 \value{
 expression matrix, rowname is the gene HUGO symbol
