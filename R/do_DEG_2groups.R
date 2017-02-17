@@ -1,11 +1,12 @@
 #' Do differential expression analysis for the expression matrix
 #'
 #' please make sure that there are just two group for you expression matrix, you should modify the code in this function if there's more than 2 group.
-#' I highly suggest you to use Limma to analysis
+#' I highly suggest you to use Limma to analysis,it's very easy, but you should make sure that
+#' relevel(factor(group_list),'control')
 #'
 #' @param prefix    The prefix for all of the output files.( we don't need it now actually)
 #' @param exprSet    Matrix with microarray expression values.
-#' @param group_list Factors for two groups that are tested for differential expression.
+#' @param group_list Factors for two groups that are tested for differential expression.please make sure that relevel(factor(group_list),'control')
 #' @param method     which method do you choose, limma,samr,rowttest in genefilter,resamplingPvalues in BioNet,t.test
 #' @param destdir    where to store the files just download.( we don't need it now actually)
 #' @return a data.frame just like topTable

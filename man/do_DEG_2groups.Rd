@@ -12,7 +12,7 @@ do_DEG_2groups(prefix = "GSE1009", exprSet = example_exprSet, group_list,
 
 \item{exprSet}{Matrix with microarray expression values.}
 
-\item{group_list}{Factors for two groups that are tested for differential expression.}
+\item{group_list}{Factors for two groups that are tested for differential expression.please make sure that relevel(factor(group_list),'control')}
 
 \item{method}{which method do you choose, limma,samr,rowttest in genefilter,resamplingPvalues in BioNet,t.test}
 
@@ -23,7 +23,8 @@ a data.frame just like topTable
 }
 \description{
 please make sure that there are just two group for you expression matrix, you should modify the code in this function if there's more than 2 group.
-I highly suggest you to use Limma to analysis
+I highly suggest you to use Limma to analysis,it's very easy, but you should make sure that
+relevel(factor(group_list),'control')
 }
 \examples{
 #' do_DEG_2groups('CLL',exprSet,group_list,method='limma')

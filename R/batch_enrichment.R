@@ -20,7 +20,8 @@ batch_enrichment <- function(diff_gene_file,all_genes_file,file='T',prefix='test
     diff_gene_list = read.table(diff_gene_file,stringsAsFactors = F)[,1]
     all_genes_list = read.table(all_genes_file,stringsAsFactors = F)[,1]
   }else{
-
+    diff_gene_list <- diff_gene_vector
+    all_genes_list <- all_genes_vector
   }
 
   diff_gene_list =  unique(geneAnno(diff_gene_list)$gene_id)
