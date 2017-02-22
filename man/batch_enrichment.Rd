@@ -4,21 +4,21 @@
 \alias{batch_enrichment}
 \title{enrichment for GO/KEGG}
 \usage{
-batch_enrichment(diff_gene_file, all_genes_file, file = "T",
-  prefix = "test", GOstats = F)
+batch_enrichment(diff_gene_file, all_genes_file, diff_gene_vector,
+  all_genes_vector, file = "T", prefix = "test", GOstats = F)
 }
 \arguments{
 \item{diff_gene_file}{A text file which contain just one column, gene HUGO symbol or entrez ID , no need for column name.}
 
 \item{all_genes_file}{the same to the diff_gene_file, contain more genes than it.}
 
-\item{prefix}{The prefix for the output files.}
-
-\item{GOstats}{whether use GOstats or not , defaults:F}
-
 \item{diff_gene_vector}{A vector contail a list of gene HUGO symbol or entrez ID}
 
 \item{all_genes_vector}{the same to the diff_gene_vector, contain more genes than it.}
+
+\item{prefix}{The prefix for the output files.}
+
+\item{GOstats}{whether use GOstats or not , defaults:F}
 }
 \value{
 write enrichment results into files.

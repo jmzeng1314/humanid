@@ -14,9 +14,9 @@
 #' #'  batch_enrichment('diff_gene_file.txt','all_genes_file.txt')
 #'
 #'
-batch_enrichment <- function(diff_gene_file,all_genes_file,file='T',prefix='test',GOstats=F ){
+batch_enrichment <- function(diff_gene_file,all_genes_file,diff_gene_vector,all_genes_vector,file='T',prefix='test',GOstats=F ){
 
-  if( file.exists(diff_gene_file) && file.exists(all_genes_file) ){
+  if( hasArg(diff_gene_file) && hasArg(all_genes_file) ){
     diff_gene_list = read.table(diff_gene_file,stringsAsFactors = F)[,1]
     all_genes_list = read.table(all_genes_file,stringsAsFactors = F)[,1]
   }else{
@@ -50,27 +50,9 @@ batch_enrichment <- function(diff_gene_file,all_genes_file,file='T',prefix='test
         GO.hyperG.results = hyperGTest(GO.hyperG.params);
         outHTMLname=paste(prefix,"_GO_",ontology,".enrichment.html",sep="")
         htmlReport(GO.hyperG.results, file=outHTMLname, summary.args=list("htmlLinks"=TRUE))
-        # GO.hyperG.matrix=summary(GO.hyperG.results)
-        # outMatrixName=paste("GO.",ontology,".hyperG.summary.csv",sep="")
-        # write.csv(GO.hyperG.matrix,file=outMatrixName )
-
       }
-      #options(digits=4);
-      # hyperG.params = new("KEGGHyperGParams", geneIds=diff_gene_list, universeGeneIds=all_genes_list, annotation=annotationPKG,
-      #                     categoryName="KEGG", pvalueCutoff=1, testDirection = "over")
-      # KEGG.hyperG.results = hyperGTest(hyperG.params);
-      # outHTMLname="kegg.enrichment.html"
-      # htmlReport(KEGG.hyperG.results, file=outHTMLname, summary.args=list("htmlLinks"=TRUE))
-      # KEGG.hyperG.matrix=summary(KEGG.hyperG.results)
-      # outMatrixName="kegg.hyperG.summary.csv"
-      # KEGG.hyperG.matrix$KEGGID=paste0('hsa:',KEGG.hyperG.matrix$KEGGID)
-      # KEGG.hyperG.matrix$p.adjust = p.adjust(KEGG.hyperG.matrix$Pvalue,method = 'BH')
-      # write.csv(KEGG.hyperG.matrix,file=outMatrixName )
     }
-
   }
-
-
 }
 
 
