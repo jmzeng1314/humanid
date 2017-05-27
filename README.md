@@ -2,7 +2,21 @@
 
 ------
 
-It's a unoffical package, just for **fun**. I will put many simple R functions which used frequently in my daily data analysis, which should be useful for you too. Don't be worry to learn them, I'm used to write minimal function, just like perl, my favorate computer language ! 
+## 写在前面
+
+鉴于有用这个包的都是初学者，而且根本不看我英文的readme。我只好在这里强调一下。
+这个包不发表，只是我写的玩的，所有的函数源代码你都可以查看，我只是想给你示范R里面如何写函数。
+我并没有设置报错机制，所以很多函数在各种情况下对初学者不友好，各种报错，请直接学习源代码即可。
+
+而且我下面给了两个测试代码，前面的包装之后的5行，后面的是完整的R代码，建议大家学后面的。
+
+------
+
+It's a unoffical package, just for **fun**. 
+
+I will put many simple R functions which used frequently in my daily data analysis, which should be useful for you too. 
+
+Don't be worry to learn them, I'm used to write minimal function, just like perl, my favorate computer language ! 
 
 ### functions including:
 
