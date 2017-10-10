@@ -25,9 +25,7 @@ Imports:
       impute, 
       limma,
       org.Hs.eg.db,
-      pheatmap,
-      pi0,
+      pheatmap, 
       rentrez,
-      reshape2,
-      samr
+      reshape2 
 Suggests: 
