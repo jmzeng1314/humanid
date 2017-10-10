@@ -11,22 +11,23 @@
 #' @examples
 #' #' exprSet <- rmDupID(dup_exprSet)
 #'
-rmDupID <-function(dup_exprSet){
-
-  print(paste('Input is',nrow(dup_exprSet),'rows and after rmdup, just',length(unique(dup_exprSet[,1])),'rows left',sep=' '))
-
-  exprSet=dup_exprSet[,-1] ## first column is the ID needed to remove duplicate.probably is gene symbol or entrez ID.
-  rowMeans=apply(exprSet,1,function(x) mean(as.numeric(x),na.rm=T))
-  dup_exprSet=dup_exprSet[order(rowMeans,decreasing=T),]
-  exprSet=dup_exprSet[!duplicated(dup_exprSet[,1]),]
-  #exprSet=apply(exprSet,2,as.numeric)
-  exprSet=exprSet[!is.na(exprSet[,1]),]
-  rownames(exprSet)=exprSet[,1]
-  exprSet=exprSet[,-1]
-  #str(exprSet)
-  rn=rownames(exprSet)
-  exprSet=apply(exprSet,2,as.numeric)
-  rownames(exprSet)=rn
-  #exprSet[1:4,1:4]
-  return(exprSet)
+rmDupID <- function(dup_exprSet) {
+    
+    print(paste("Input is", nrow(dup_exprSet), "rows and after rmdup, just", length(unique(dup_exprSet[, 1])), "rows left", 
+        sep = " "))
+    
+    exprSet = dup_exprSet[, -1]  ## first column is the ID needed to remove duplicate.probably is gene symbol or entrez ID.
+    rowMeans = apply(exprSet, 1, function(x) mean(as.numeric(x), na.rm = T))
+    dup_exprSet = dup_exprSet[order(rowMeans, decreasing = T), ]
+    exprSet = dup_exprSet[!duplicated(dup_exprSet[, 1]), ]
+    # exprSet=apply(exprSet,2,as.numeric)
+    exprSet = exprSet[!is.na(exprSet[, 1]), ]
+    rownames(exprSet) = exprSet[, 1]
+    exprSet = exprSet[, -1]
+    # str(exprSet)
+    rn = rownames(exprSet)
+    exprSet = apply(exprSet, 2, as.numeric)
+    rownames(exprSet) = rn
+    # exprSet[1:4,1:4]
+    return(exprSet)
 }

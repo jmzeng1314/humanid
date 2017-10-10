@@ -14,16 +14,16 @@
 #' pathway_heatmap(example_exprSet)
 
 
-pathway_heatmap <- function(exprSet,pathwayID='00910',search='NA',all=F){
-  if(all){
-    drawPath=kegg2name
-  }else if(search != 'NA'){
-      drawPath=kegg2name[grepl('signal',kegg2name$pathway_name),]
-  }else {
-    if ( is.na(match(pathwayID,kegg2name$pathway_id)) )
-      stop('please input a correct pathway ID ,just like:00910')
-    drawPath=kegg2name[pathwayID,]
-  }
-
-  return('hello')
+pathway_heatmap <- function(exprSet, pathwayID = "00910", search = "NA", all = F) {
+    if (all) {
+        drawPath = kegg2name
+    } else if (search != "NA") {
+        drawPath = kegg2name[grepl("signal", kegg2name$pathway_name), ]
+    } else {
+        if (is.na(match(pathwayID, kegg2name$pathway_id))) 
+            stop("please input a correct pathway ID ,just like:00910")
+        drawPath = kegg2name[pathwayID, ]
+    }
+    
+    return("hello")
 }

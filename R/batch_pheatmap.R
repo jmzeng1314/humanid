@@ -16,63 +16,55 @@
 #' #' batch_pheatmap(),batch_pheatmap()
 
 
-batch_pheatmap <- function(exprSet,group_list,name=F,genesets,width=800,height=800){
-  fileList=names(genesets)
-  sample_list=colnames(exprSet)
-  lapply(1:length(fileList), function(i){
-    x=genesets[[i]]
-    x=x[ x %in% rownames(exprSet) ]
-    print(x)
-    if(length(x)>4){
-      data1 = exprSet[x,]
-
-      ## Need to be simpler,but I can't do it.
-      tmp_number=rep(0,length(unique( group_list )))
-      names(tmp_number)=unique( group_list )
-      tmp_sample_name=c()
-      for(j in 1:length( sample_list )){
-        tmp_number[ group_list[j] ]= tmp_number[ group_list[j] ] +1;
-        tmp_sample_name=c(tmp_sample_name,paste(group_list[j], tmp_number[ group_list[j] ]  ,sep="_"))
-      }
-      #print(tmp_sample_name)
-
-      data1=data1[,sample_list[order(tmp_sample_name)]]
-
-      geneName = rownames(data1)
-      if(name){
-        geneName=geneAnno(rownames(data1))
-        geneName= geneName[match(x,geneName$symbol ),]
-        geneName=paste0(geneName[,2],'(',geneName[,3],')')
-      }
-
-      # Generate annotations for rows and columns
-      annotation_col = data.frame(
-        sampleGroup = group_list
-      )
-      rownames(annotation_col) =  sample_list
-
-
-
-      library(pheatmap)
-      # color = colorRampPalette(c("navy", "white", "firebrick3"))(50)
-      if(length(x) > 40 ){
-        pheatmap(data1,
-                 cluster_rows=T,cluster_cols=T, annotation_col = annotation_col,
-                 cutree_col = 2, #display_numbers = TRUE
-                 border_color="white" ,labels_row = geneName, cellwidth=20,fontsize=6,
-                 file=paste0('heatmap_',fileList[i],".pdf"),width=10,height=10
-        )
-      }else{
-        png(paste0('heatmap_',fileList[i],".png"),width = width,height = height);
-        pheatmap(data1,
-                 cluster_rows=T,cluster_cols=T, annotation_col = annotation_col,
-                 cutree_col = 2, #display_numbers = TRUE
-                 border_color="white" ,labels_row = geneName
-        )
-      }
-      dev.off()
-    }
-  })
+batch_pheatmap <- function(exprSet, group_list, name = F, genesets, width = 800, height = 800) {
+    fileList = names(genesets)
+    sample_list = colnames(exprSet)
+    lapply(1:length(fileList), function(i) {
+        x = genesets[[i]]
+        x = x[x %in% rownames(exprSet)]
+        print(x)
+        if (length(x) > 4) {
+            data1 = exprSet[x, ]
+            
+            ## Need to be simpler,but I can't do it.
+            tmp_number = rep(0, length(unique(group_list)))
+            names(tmp_number) = unique(group_list)
+            tmp_sample_name = c()
+            for (j in 1:length(sample_list)) {
+                tmp_number[group_list[j]] = tmp_number[group_list[j]] + 1
+                tmp_sample_name = c(tmp_sample_name, paste(group_list[j], tmp_number[group_list[j]], sep = "_"))
+            }
+            # print(tmp_sample_name)
+            
+            data1 = data1[, sample_list[order(tmp_sample_name)]]
+            
+            geneName = rownames(data1)
+            if (name) {
+                geneName = geneAnno(rownames(data1))
+                geneName = geneName[match(x, geneName$symbol), ]
+                geneName = paste0(geneName[, 2], "(", geneName[, 3], ")")
+            }
+            
+            # Generate annotations for rows and columns
+            annotation_col = data.frame(sampleGroup = group_list)
+            rownames(annotation_col) = sample_list
+            
+            
+            
+            library(pheatmap)
+            # color = colorRampPalette(c('navy', 'white', 'firebrick3'))(50)
+            if (length(x) > 40) {
+                pheatmap(data1, cluster_rows = T, cluster_cols = T, annotation_col = annotation_col, cutree_col = 2, 
+                  border_color = "white", labels_row = geneName, cellwidth = 20, fontsize = 6, file = paste0("heatmap_", 
+                    fileList[i], ".pdf"), width = 10, height = 10)
+            } else {
+                png(paste0("heatmap_", fileList[i], ".png"), width = width, height = height)
+                pheatmap(data1, cluster_rows = T, cluster_cols = T, annotation_col = annotation_col, cutree_col = 2, 
+                  border_color = "white", labels_row = geneName)
+            }
+            dev.off()
+        }
+    })
 }
 
 

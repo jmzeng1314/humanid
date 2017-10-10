@@ -4,7 +4,31 @@ Title: gene id annotation
 Version: 0.1.0
 Author: jianmingzeng
 Maintainer: jianmingzeng <jmzeng1314@16.com>
-Description: entrez gene id , gene symbol,hugo,ensembl gene id, gene map,https://github.com/jmzeng1314/humanid
+Description: entrez gene id , gene symbol,hugo,ensembl gene id, gene map, https://github.com/jmzeng1314/humanid
 License: MIT-3
 LazyData: TRUE
 RoxygenNote: 5.0.1
+Imports:
+      BioNet,
+      DT,
+      CLL,
+      GEOquery,
+      annotate,
+      calibrate,
+      devEMF,
+      genefilter,
+      ggplot2,
+      hgu133a.db,
+      hgu133b.db,
+      hgu133plus2.db,
+      hgu95av2.db,
+      impute,
+      library,
+      limma,
+      org.Hs.eg.db,
+      pheatmap,
+      pi0,
+      rentrez,
+      reshape2,
+      samr
+Suggests: 

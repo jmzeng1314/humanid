@@ -13,27 +13,23 @@
 #' #' createGSEAinput('GSE1009',exprSet,group_list)
 
 
-createGSEAinput <- function(prefix='GSE1009',exprSet=example_exprSet ,group_list ,destdir='.'){
-  # sink("outfile.txt")
-  # cat("hello")
-  # cat("\n")
-  # cat("world")
-  # sink()
-  gct_file=paste0(prefix,'.gct')
-  sink( gct_file )
-  cat("#1.2\n")
-  cat(paste0( nrow(exprSet) ,"\t",length(group_list) ,"\n") )
-  sink()
-  gct_out <- cbind(symbol=rownames(exprSet),description='na',exprSet)
-  write.table(gct_out,gct_file,append = T,quote = F,row.names = F,sep = '\t')
-
-
-  cls_file=paste0(prefix,'.cls')
-  sink( cls_file )
-  cat(paste0( length(group_list)  ," ",length(unique(group_list)) ," 1\n") )
-  cat(paste0("# ",paste(unique(group_list),collapse = ' ') ,"\n"))
-  cat(paste(group_list,collapse = ' '))
-  sink()
+createGSEAinput <- function(prefix = "GSE1009", exprSet = example_exprSet, group_list, destdir = ".") {
+    # sink('outfile.txt') cat('hello') cat('\n') cat('world') sink()
+    gct_file = paste0(prefix, ".gct")
+    sink(gct_file)
+    cat("#1.2\n")
+    cat(paste0(nrow(exprSet), "\t", length(group_list), "\n"))
+    sink()
+    gct_out <- cbind(symbol = rownames(exprSet), description = "na", exprSet)
+    write.table(gct_out, gct_file, append = T, quote = F, row.names = F, sep = "\t")
+    
+    
+    cls_file = paste0(prefix, ".cls")
+    sink(cls_file)
+    cat(paste0(length(group_list), " ", length(unique(group_list)), " 1\n"))
+    cat(paste0("# ", paste(unique(group_list), collapse = " "), "\n"))
+    cat(paste(group_list, collapse = " "))
+    sink()
 }
 
 

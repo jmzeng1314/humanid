@@ -14,37 +14,36 @@
 #' #' hyperGtest_jimmy(),hyperGtest_jimmy()
 
 
-hyperGtest_jimmy <- function(GeneID2Path=GeneID2kegg_list,
-                             Path2GeneID=kegg2GeneID_list,
-                             diff_gene=sample(unique(hgu95av2_id$gene_id),500),
-                             universeGeneIds=unique(hgu95av2_id$gene_id)
-                             ){
-  diff_gene_has_path=intersect(diff_gene,names(GeneID2Path))
-  n=length(diff_gene) #306
-  N=length(universeGeneIds) #5870
-  results=c()
-
-  for (i in names(Path2GeneID)){
-    M=length(intersect(Path2GeneID[[i]],universeGeneIds))
-    #print(M)
-    if(M<5)
-      next
-    exp_count=n*M/N
-    #print(paste(n,N,M,sep="\t"))
-    k=0
-    for (j in diff_gene_has_path){
-      if (i %in% GeneID2Path[[j]]) k=k+1
+hyperGtest_jimmy <- function(GeneID2Path = GeneID2kegg_list, Path2GeneID = kegg2GeneID_list, diff_gene = sample(unique(hgu95av2_id$gene_id), 
+    500), universeGeneIds = unique(hgu95av2_id$gene_id)) {
+    diff_gene_has_path = intersect(diff_gene, names(GeneID2Path))
+    n = length(diff_gene)  #306
+    N = length(universeGeneIds)  #5870
+    results = c()
+    
+    for (i in names(Path2GeneID)) {
+        M = length(intersect(Path2GeneID[[i]], universeGeneIds))
+        # print(M)
+        if (M < 5) 
+            next
+        exp_count = n * M/N
+        # print(paste(n,N,M,sep='\t'))
+        k = 0
+        for (j in diff_gene_has_path) {
+            if (i %in% GeneID2Path[[j]]) 
+                k = k + 1
+        }
+        OddsRatio = k/exp_count
+        if (k == 0) 
+            next
+        p = phyper(k - 1, M, N - M, n, lower.tail = F)
+        # print(paste(i,p,OddsRatio,exp_count,k,M,sep=' '))
+        results = rbind(results, c(i, p, OddsRatio, exp_count, k, M))
     }
-    OddsRatio=k/exp_count
-    if (k==0) next
-    p=phyper(k-1,M, N-M, n, lower.tail=F)
-    #print(paste(i,p,OddsRatio,exp_count,k,M,sep="    "))
-    results=rbind(results,c(i,p,OddsRatio,exp_count,k,M))
-  }
-  colnames(results)=c("PathwayID","Pvalue","OddsRatio","ExpCount","Count","Size")
-  results=as.data.frame(results,stringsAsFactors = F)
-  results$p.adjust = p.adjust(results$Pvalue,method = 'BH')
-  results=results[order(results$Pvalue),]
-  rownames(results)=1:nrow(results)
-  return(results)
+    colnames(results) = c("PathwayID", "Pvalue", "OddsRatio", "ExpCount", "Count", "Size")
+    results = as.data.frame(results, stringsAsFactors = F)
+    results$p.adjust = p.adjust(results$Pvalue, method = "BH")
+    results = results[order(results$Pvalue), ]
+    rownames(results) = 1:nrow(results)
+    return(results)
 }

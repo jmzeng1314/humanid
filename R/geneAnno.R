@@ -20,57 +20,57 @@
 #' lapply(names(kegg2GeneID),function(x) geneAnno(kegg2GeneID[[x]],file = T,prefix = as.character(kegg2name[x,'pathway_name'])))
 #'
 
-geneAnno <- function(geneLists=c(1,2,9),name=T,map=F,ensembl=F,accnum=F,file=F,prefix='test'){
-  if(length(geneLists)>length(unique(geneLists)))
-    warning('there is duplicate for the geneLists !')
-
-  geneLists <- unique(geneLists)
-  if( all(! geneLists %in% all_EG) ){
-    inputType='symbol'
-    geneLists=data.frame(symbol=geneLists)
-    results=merge(geneLists,EG2Symbol,by='symbol',all.x=T)
-  }else{
-    inputType='entrezID'
-    geneLists=data.frame(gene_id=geneLists)
-    results=merge(geneLists,EG2Symbol,by='gene_id',all.x=T)
-  }
-
-  if ( name ){
-
-    results=merge(results,EG2name,by='gene_id',all.x=T)
-  }
-  if(map){
-
-    results=merge(results,EG2MAP,by='gene_id',all.x=T)
-  }
-  if(ensembl){
-
-    results=merge(results,EG2ENSEMBL,by='gene_id',all.x=T)
-  }
-  if(accnum){
-
-    results=merge(results,EG2MAP,by='gene_id',all.x=T)
-  }
-  results$symbol <- as.character(results$symbol  )
-  if(file){
-    entrez_prefix <- "http://www.ncbi.nlm.nih.gov/gene/"
-    href=paste0( entrez_prefix ,results$gene_id)
-    results$gene_id=paste0('<b><a target="_black" href=', shQuote(href) ,'>',results$gene_id,'</a></b>')
-
-    symbol_prefix <- "http://www.ncbi.nlm.nih.gov/gene?term="
-    href=paste0( symbol_prefix ,results$symbol)
-    results$symbol=paste0('<b><a target="_black" href=', shQuote(href) ,'>',results$symbol,'</a></b>')
-    #prefix <- 'fefe / \ " fee'
-    prefix <- sub('/','_',prefix)
-    prefix <- sub('"','_',prefix)
-
-    y <- DT::datatable(results,escape = F,rownames=F)
-    DT::saveWidget(y, paste0(prefix,'_geneAno_links.html'))
-  }else{
-    return(results)
-  }
-
-
+geneAnno <- function(geneLists = c(1, 2, 9), name = T, map = F, ensembl = F, accnum = F, file = F, prefix = "test") {
+    if (length(geneLists) > length(unique(geneLists))) 
+        warning("there is duplicate for the geneLists !")
+    
+    geneLists <- unique(geneLists)
+    if (all(!geneLists %in% all_EG)) {
+        inputType = "symbol"
+        geneLists = data.frame(symbol = geneLists)
+        results = merge(geneLists, EG2Symbol, by = "symbol", all.x = T)
+    } else {
+        inputType = "entrezID"
+        geneLists = data.frame(gene_id = geneLists)
+        results = merge(geneLists, EG2Symbol, by = "gene_id", all.x = T)
+    }
+    
+    if (name) {
+        
+        results = merge(results, EG2name, by = "gene_id", all.x = T)
+    }
+    if (map) {
+        
+        results = merge(results, EG2MAP, by = "gene_id", all.x = T)
+    }
+    if (ensembl) {
+        
+        results = merge(results, EG2ENSEMBL, by = "gene_id", all.x = T)
+    }
+    if (accnum) {
+        
+        results = merge(results, EG2MAP, by = "gene_id", all.x = T)
+    }
+    results$symbol <- as.character(results$symbol)
+    if (file) {
+        entrez_prefix <- "http://www.ncbi.nlm.nih.gov/gene/"
+        href = paste0(entrez_prefix, results$gene_id)
+        results$gene_id = paste0("<b><a target=\"_black\" href=", shQuote(href), ">", results$gene_id, "</a></b>")
+        
+        symbol_prefix <- "http://www.ncbi.nlm.nih.gov/gene?term="
+        href = paste0(symbol_prefix, results$symbol)
+        results$symbol = paste0("<b><a target=\"_black\" href=", shQuote(href), ">", results$symbol, "</a></b>")
+        # prefix <- 'fefe / \ ' fee'
+        prefix <- sub("/", "_", prefix)
+        prefix <- sub("\"", "_", prefix)
+        
+        y <- DT::datatable(results, escape = F, rownames = F)
+        DT::saveWidget(y, paste0(prefix, "_geneAno_links.html"))
+    } else {
+        return(results)
+    }
+    
+    
 }
 
 
