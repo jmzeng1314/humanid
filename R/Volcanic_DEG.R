@@ -4,6 +4,9 @@
 #' @param DEG  DEG=topTable(fit,coef=2,adjust='BH')
 #' @param imageType choose png or pdf or EMF
 #' @param prefix A standard study ID
+#' @param logFC_cutoff   The cutoff for logFC    to choose DEG, default:mean(abs(DEG$logFC)) + 2*sd(abs(DEG$logFC))
+#' @param pvalue_cutoff  The cutoff for pvalue   to choose DEG, default:0.05
+#' @param padjust_cutof The cutoff for p.adjust to choose DEG, default:none
 #' @return plot 3 kind of volcanic figures
 #' @export
 #' @keywords Volcanic_DEG
@@ -11,14 +14,17 @@
 #' #'  Volcanic_DEG(DEG)
 #'
 #'
-Volcanic_DEG <- function(DEG, imageType = "png", prefix = "test") {
+Volcanic_DEG <- function(DEG, imageType = "png", logFC_cutoff = 0, pvalue_cutoff = 0, padjust_cutoff = 0,prefix = "test") {
     library(ggplot2)
     library(devEMF)
     res <- DEG
     res$Gene <- rownames(res)
     # Make a basic volcano plot
-    logFC_Cutof <- with(res, mean(abs(logFC)) + 2 * sd(abs(logFC)))
-    
+    if (logFC_cutoff == 0) {
+      logFC_cutoff <- with(res, mean(abs(logFC)) + 2 * sd(abs(logFC)))
+    }
+
+
     if (imageType == "png") {
         png(paste0(prefix, "_basic_volcanic.png"))
     } else if (imageType == "pdf") {
@@ -28,14 +34,14 @@ Volcanic_DEG <- function(DEG, imageType = "png", prefix = "test") {
     } else {
         stop("we just afford png ,emf or pdf for the volcanic figures")
     }
-    
+
     with(res, plot(logFC, -log10(P.Value), pch = 20, main = "", xlab = "", ylab = ""))
     abline(h = -log10(0.05), col = "blue")
-    abline(v = logFC_Cutof, col = "red")
-    abline(v = -logFC_Cutof, col = "red")
-    title(main = paste0("cutoff for logFC is ", round(logFC_Cutof, 3)), xlab = "log2 fold change", ylab = "-log10 p-value")
+    abline(v = logFC_cutoff, col = "red")
+    abline(v = -logFC_cutoff, col = "red")
+    title(main = paste0("cutoff for logFC is ", round(logFC_cutoff, 3)), xlab = "log2 fold change", ylab = "-log10 p-value")
     dev.off()
-    
+
     if (imageType == "png") {
         png(paste0(prefix, "_marker_gene_volcanic.png"))
     } else if (imageType == "pdf") {
@@ -45,8 +51,8 @@ Volcanic_DEG <- function(DEG, imageType = "png", prefix = "test") {
     } else {
         stop("we just afford png ,emf or pdf for the volcanic figures")
     }
-    
-    
+
+
     with(res, plot(logFC, -log10(P.Value), pch = 20, main = "Volcano plot"))
     # Add colored points: red if padj<0.05, orange of log2FC>1, green if both)
     with(subset(res, adj.P.Val < 0.05), points(logFC, -log10(P.Value), pch = 20, col = "red"))
@@ -56,14 +62,14 @@ Volcanic_DEG <- function(DEG, imageType = "png", prefix = "test") {
     library(calibrate)
     with(subset(res, adj.P.Val < 0.05 & abs(logFC) > 1), textxy(logFC, -log10(P.Value), labs = Gene, cex = 0.8))
     dev.off()
-    
-    
-    logFC_Cutof <- with(res, mean(abs(logFC)) + 2 * sd(abs(logFC)))
-    res$change = as.factor(ifelse(res$P.Value < 0.05 & abs(res$logFC) > logFC_Cutof, ifelse(res$logFC > logFC_Cutof, 
+
+
+    logFC_cutoff <- with(res, mean(abs(logFC)) + 2 * sd(abs(logFC)))
+    res$change = as.factor(ifelse(res$P.Value < 0.05 & abs(res$logFC) > logFC_cutoff, ifelse(res$logFC > logFC_cutoff,
         "UP", "DOWN"), "NOT"))
-    this_tile <- paste0("Cutoff for logFC is ", round(logFC_Cutof, 3), "\nThe number of up gene is ", nrow(res[res$change == 
+    this_tile <- paste0("Cutoff for logFC is ", round(logFC_cutoff, 3), "\nThe number of up gene is ", nrow(res[res$change ==
         "UP", ]), "\nThe number of down gene is ", nrow(res[res$change == "DOWN", ]))
-    
+
     if (imageType == "png") {
         png(paste0(prefix, "_ggplot_volcanic.png"))
     } else if (imageType == "pdf") {
@@ -73,12 +79,12 @@ Volcanic_DEG <- function(DEG, imageType = "png", prefix = "test") {
     } else {
         stop("we just afford png ,emf or pdf for the volcanic figures")
     }
-    
-    
+
+
     ## Construct the plot object
-    g = ggplot(data = res, aes(x = logFC, y = -log10(P.Value), color = change)) + geom_point(alpha = 0.4, size = 1.75) + 
-        theme_set(theme_set(theme_bw(base_size = 20))) + xlab("log2 fold change") + ylab("-log10 p-value") + ggtitle(this_tile) + 
-        theme(plot.title = element_text(size = 15, hjust = 0.5)) + scale_colour_manual(values = c("blue", "black", 
+    g = ggplot(data = res, aes(x = logFC, y = -log10(P.Value), color = change)) + geom_point(alpha = 0.4, size = 1.75) +
+        theme_set(theme_set(theme_bw(base_size = 20))) + xlab("log2 fold change") + ylab("-log10 p-value") + ggtitle(this_tile) +
+        theme(plot.title = element_text(size = 15, hjust = 0.5)) + scale_colour_manual(values = c("blue", "black",
         "red"))  ## corresponding to the levels(res$change)
     print(g)
     dev.off()
