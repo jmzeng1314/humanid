@@ -64,7 +64,11 @@ Volcanic_DEG <- function(DEG, imageType = "png", logFC_cutoff = 0, pvalue_cutoff
     dev.off()
 
 
-    logFC_cutoff <- with(res, mean(abs(logFC)) + 2 * sd(abs(logFC)))
+
+    if (logFC_cutoff == 0) {
+      logFC_cutoff <- with(res, mean(abs(logFC)) + 2 * sd(abs(logFC)))
+    }
+
     res$change = as.factor(ifelse(res$P.Value < 0.05 & abs(res$logFC) > logFC_cutoff, ifelse(res$logFC > logFC_cutoff,
         "UP", "DOWN"), "NOT"))
     this_tile <- paste0("Cutoff for logFC is ", round(logFC_cutoff, 3), "\nThe number of up gene is ", nrow(res[res$change ==
