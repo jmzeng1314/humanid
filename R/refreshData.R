@@ -11,19 +11,40 @@ refreshMicroarrayData <- function(refresh = F) {
         library(hgu133a.db)
         library(hgu133b.db)
         library(hgu133plus2.db)
-        
+
         hgu95av2_id <- toTable(hgu95av2ENTREZID)
         hgu133a_id <- toTable(hgu133aENTREZID)
         hgu133b_id <- toTable(hgu133bENTREZID)
         hgu133plus2_id <- toTable(hgu133plus2ENTREZID)
-        
+
         # save(hgu95av2_id,hgu133a_id,hgu133b_id,hgu133plus2_id,file = 'probeset.Rdata')
         devtools::use_data(hgu95av2_id, hgu133a_id, hgu133b_id, hgu133plus2_id, overwrite = T)
     }
-    
-    
+
+
     # hgu95av2_id[ match(c(probeList),hgu95av2_id$probe_id),]
 }
+
+refreshGPL <- function(refresh = F) {
+  if (refresh) {
+    library(GEOmetadb)
+    db='/Users/jmzeng/data/project/IDmap/GEOmetadb.sqlite'
+    if(!file.exists(db)) getSQLiteFile()
+    file.info(db)
+    conGEO <- dbConnect(SQLite(),db)
+    dbListTables(conGEO)
+    dbListFields(conGEO,"gpl")
+    gpl= dbGetQuery(conGEO,"select * from gpl ")
+    r_gpl=gpl[!is.na(gpl$bioc_package),c(2,3,20)]
+    # save(r_gpl,file = 'gpl_with_Rpackage.Rdata')
+
+    devtools::use_data( r_gpl, overwrite = T)
+  }
+
+
+  # hgu95av2_id[ match(c(probeList),hgu95av2_id$probe_id),]
+}
+
 
 #' extract gene IDs from org.Hs.eg.db
 #'
@@ -82,7 +103,7 @@ update_kegg <- function(refresh = F) {
         } else {
             stop("we can not find the file:path2name_file")
         }
-        
+
         devtools::use_data(keggID2geneID_df, GeneID2kegg_list, kegg2GeneID_list, kegg2name, overwrite = T)
     }
 }
@@ -100,7 +121,7 @@ create_dup_exprSet <- function(refresh = F) {
     library(CLL)
     data(sCLLex)
     group_list = sCLLex$Disease
-    
+
     library(annotate)
     exprSet = exprs(sCLLex)
     platformDB = "hgu95av2.db"
@@ -108,7 +129,7 @@ create_dup_exprSet <- function(refresh = F) {
     probeset <- featureNames(sCLLex)
     SYMBOL <- lookUp(probeset, platformDB, "SYMBOL")
     dup_exprSet = cbind(SYMBOL, exprSet)
-    
+
     devtools::use_data(dup_exprSet, overwrite = T)
 }
 
@@ -138,7 +159,7 @@ create_example_exprSet <- function(refresh = F) {
 #' @keywords refresh
 #'
 create_genesets_list <- function(refresh = F) {
-    
+
     suppressMessages(library("org.Hs.eg.db"))
     allSymbols = mappedkeys(org.Hs.egSYMBOL2EG)
     PRMT_list = allSymbols[grepl("^PRMT", allSymbols)]
@@ -154,12 +175,12 @@ create_genesets_list <- function(refresh = F) {
     CDK_list = allSymbols[grepl("^CDK\\d+$", perl = T, allSymbols)]
     PRAK_list = allSymbols[grepl("^PRKA", perl = T, allSymbols)]
     DUSP_list = allSymbols[grepl("^DUSP\\d+$", allSymbols)]
-    
-    enzyme_genesets = list(PRMT_list, JMJD_list, KMT_list, KDM_list, HAT_list, HDAC_list, MAPK_list, CDK_list, PRAK_list, 
+
+    enzyme_genesets = list(PRMT_list, JMJD_list, KMT_list, KDM_list, HAT_list, HDAC_list, MAPK_list, CDK_list, PRAK_list,
         DUSP_list)
-    names(enzyme_genesets) = strsplit("PRMT_list,JMJD_list,KMT_list,KDM_list,HAT_list,HDAC_list,MAPK_list,CDK_list,PRAK_list,DUSP_list", 
+    names(enzyme_genesets) = strsplit("PRMT_list,JMJD_list,KMT_list,KDM_list,HAT_list,HDAC_list,MAPK_list,CDK_list,PRAK_list,DUSP_list",
         ",")[[1]]
-    
+
     HIST_list = allSymbols[grepl("^HIST", allSymbols)]
     ABC_list = allSymbols[grepl("^ABC", allSymbols)]
     TUB_list = allSymbols[grepl("^TUB", allSymbols)]
@@ -167,10 +188,10 @@ create_genesets_list <- function(refresh = F) {
     MYO_list = allSymbols[grepl("^MYO", allSymbols)]
     other_genesets = list(HIST_list, ABC_list, TUB_list, ACT_list, MYO_list)
     names(other_genesets) = strsplit("HIST_list,ABC_list,TUB_list,ACT_list,MYO_list", ",")[[1]]
-    
-    
-    PRC_list = c("BMI1", "CBX2", "CBX4", "CBX7", "CBX8", "PCGF1", "PCGF2", "PCGF3", "PCGF5", "PCGF6", "PHC1", "PHC2", 
-        "PHC3", "RING1", "RNF2", "SCML1", "SCML2", "AEBP2", "EED", "EZH2", "HOXTAIR", "JARID2", "RBBP4", "RBBP6", 
+
+
+    PRC_list = c("BMI1", "CBX2", "CBX4", "CBX7", "CBX8", "PCGF1", "PCGF2", "PCGF3", "PCGF5", "PCGF6", "PHC1", "PHC2",
+        "PHC3", "RING1", "RNF2", "SCML1", "SCML2", "AEBP2", "EED", "EZH2", "HOXTAIR", "JARID2", "RBBP4", "RBBP6",
         "SUZ12", "GAPDH")
     SWI_SNF_list = allSymbols[grepl("^SMAR", allSymbols)]
     RNA_Polymerase_II_list = allSymbols[grepl("^POLR", allSymbols)]
@@ -179,14 +200,14 @@ create_genesets_list <- function(refresh = F) {
     TATA_Box_TF_list = c(TAF_list, TBP_list)
     General_TF_list = allSymbols[grepl("^GTF", allSymbols)]
     nulear_Factor_list = allSymbols[grepl("^NF", allSymbols)]
-    protein_complex_genesets = list(PRC_list, SWI_SNF_list, RNA_Polymerase_II_list, TATA_Box_TF_list, General_TF_list, 
+    protein_complex_genesets = list(PRC_list, SWI_SNF_list, RNA_Polymerase_II_list, TATA_Box_TF_list, General_TF_list,
         nulear_Factor_list)
-    names(protein_complex_genesets) = strsplit("PRC_list,SWI_SNF_list,RNA_Polymerase_II_list,TATA_Box_TF_list,General_TF_list,nulear_Factor_list", 
+    names(protein_complex_genesets) = strsplit("PRC_list,SWI_SNF_list,RNA_Polymerase_II_list,TATA_Box_TF_list,General_TF_list,nulear_Factor_list",
         ",")[[1]]
-    
-    
+
+
     devtools::use_data(protein_complex_genesets, enzyme_genesets, other_genesets, overwrite = T)
-    
+
 }
 
 
